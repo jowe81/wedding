@@ -16,10 +16,14 @@ const db = require("./db/connect");
 
 // Appi
 const app = express();
+const helmet = require("helmet");
+const cors = require("cors");
 
 app.use(morgan("common"));
 app.use(express.json()); 
-
+app.use(helmet());
+app.use(cors());
+console.log('added cors');
 app.get("/", async function(req, res, next) {
 
 });

@@ -27,7 +27,8 @@ const get = async id => {
 
 const getAll = async () => {
   try {      
-    return await db._('posts');
+    return await db._('posts')
+      .orderBy('created_at', 'desc');
   } catch (e) {
     return log(e.sqlMessage);
   }

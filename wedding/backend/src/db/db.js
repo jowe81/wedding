@@ -12,9 +12,10 @@ createTables = async () => {
       .createTable('posts', table => {
         table.increments('id');
         table.string('name');
-        table.string('location');
+        table.string('city');
+        table.string('country');
         table.string('email');
-        table.string('text');
+        table.text('text', 'mediumtext');
         table.timestamp('created_at')
           .defaultTo(db.fn.now());
       });    
