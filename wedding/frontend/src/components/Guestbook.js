@@ -35,10 +35,10 @@ const Guestbook = (props) => {
 
   let text;
   
-  if (status === 'before') {
+  if (status === T_BEFORE) {
     //Before
     text = not_yet_open;
-  } else if (status ==='day_of') {
+  } else if (status ===T_DURING) {
     //Day of    
     text =  posts.length ? <div><div className="entry_count">{posts.length} entries</div>{ getPosts() }</div> : empty_guestbook;
     if (posts.length) {
