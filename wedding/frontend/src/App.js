@@ -22,6 +22,9 @@ function App() {
       .catch(console.error);
   }, [setMessage]);
 
+  useEffect(() => {
+    document.title = "jowe.ca";  
+  }, []);
   
   return (
     <div className="App">
