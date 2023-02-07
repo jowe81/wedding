@@ -3,12 +3,15 @@ import Post from "./Post";
 import Navigation from "./Navigation";
 import { useNavigate } from "react-router-dom";
 
+import useApplicationData from "../hooks/useApplicationData";
+
 const Guestbook = (props) => {
+  const appData = useApplicationData();
+  const { status, guestbookOpen } = appData.getData();
+
   const [posts, setPosts] = useState([]);
   const [timeoutHandler, setTimeoutHandler] = useState();
   const navigate = useNavigate();
-  const { status, guestbookOpen } = props;
-  console.log("gb props", props, guestbookOpen);
 
   const fetchData = () => {
     fetch("http://192.168.1.183/api/posts")
@@ -35,10 +38,10 @@ const Guestbook = (props) => {
 
   let text;
   
-  if (status === T_BEFORE) {
+  if (status === appData.T_BEFORE) {
     //Before
     text = not_yet_open;
-  } else if (status ===T_DURING) {
+  } else if (status === appData.T_DURING) {
     //Day of    
     text =  posts.length ? <div><div className="entry_count">{posts.length} entries</div>{ getPosts() }</div> : empty_guestbook;
     if (posts.length) {
