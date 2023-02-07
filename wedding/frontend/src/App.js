@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+
+import useApplicationData from "./hooks/useApplicationData";
+
 import "./App.scss";
-import axios from "axios";
 import { Routes, Route } from "react-router-dom"
 import Home from "./components/Home";
 import Guestbook from "./components/Guestbook";
@@ -14,14 +15,10 @@ import '@fontsource/roboto/700.css';
 
 
 function App() {
-  const [message, setMessage] = useState();
-  useEffect(() => {
-    fetch("/api/")
-      .then(res => res.json())
-      .then(res => setMessage(res.message))
-      .catch(console.error);
-  }, [setMessage]);
 
+  const appData = useApplicationData();
+  const props = appData.getData();
+  
   useEffect(() => {
     document.title = "jowe.ca";  
   }, []);
@@ -30,9 +27,9 @@ function App() {
     <div className="App">
       <img className="header_image" src={HeaderImage}/>
       <Routes>
-        <Route path="/" element={ <Home/> } />
-        <Route path="guestbook" element={ <Guestbook/> } />
-        <Route path="sign" element={ <Sign/> } />
+        <Route path="/" element={ <Home {...props}/> } />
+        <Route path="guestbook" element={ <Guestbook {...props}/> } />
+        <Route path="sign" element={ <Sign {...props}/> } />
       </Routes>
       <div className="overlay"></div>
       

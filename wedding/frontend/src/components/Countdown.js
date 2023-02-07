@@ -44,11 +44,6 @@ export default function Countdown(props) {
         <Badge bg="primary" style={{minWidth:90 + 'px'}}>{dHours} {getWord(dHours, "hour")}</Badge>
         <Badge bg="primary" style={{minWidth:90 + 'px'}}>{dMinutes} {getWord(dMinutes, "minute")}</Badge>
         <Badge bg="primary" style={{minWidth:90 + 'px'}}>{dSeconds} {getWord(dSeconds, "second")}</Badge>
-        <div className="linkBtn">
-          <a href="https://www.weddingwire.ca/web/jessica-bjorkman-and-johannes-weber">
-            <Badge bg="secondary" style={{minWidth:110 + 'px'}}>Learn more...</Badge>
-          </a>
-        </div>
       </div>
     </div>
   );

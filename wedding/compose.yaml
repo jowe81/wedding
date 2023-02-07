@@ -51,7 +51,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./frontend/src:/code/src
+      - ./frontend/:/code
       - /code/node_modules
     networks:
       - public
