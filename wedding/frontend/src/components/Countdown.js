@@ -39,11 +39,11 @@ export default function Countdown(props) {
 
   return (
     <div className="aligner">
-      <div>
-        <Badge bg="primary" style={{minWidth:90 + 'px'}}>{dDays} {getWord(dDays, "day")}</Badge>
-        <Badge bg="primary" style={{minWidth:90 + 'px'}}>{dHours} {getWord(dHours, "hour")}</Badge>
-        <Badge bg="primary" style={{minWidth:90 + 'px'}}>{dMinutes} {getWord(dMinutes, "minute")}</Badge>
-        <Badge bg="primary" style={{minWidth:90 + 'px'}}>{dSeconds} {getWord(dSeconds, "second")}</Badge>
+      <div className="countdown-container">
+        <Badge className="countdown-element" bg="primary">{dDays} {getWord(dDays, "day")}</Badge>
+        <Badge className="countdown-element" bg="primary">{dHours} {getWord(dHours, "hour")}</Badge>
+        <Badge className="countdown-element" bg="primary">{dMinutes} {getWord(dMinutes, "minute")}</Badge>
+        <Badge className="countdown-element" bg="primary">{dSeconds} {getWord(dSeconds, "second")}</Badge>
       </div>
     </div>
   );

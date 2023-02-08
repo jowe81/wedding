@@ -74,7 +74,7 @@ const Guestbook = (props) => {
     <div>
       <h1>Wedding Guestbook</h1>
       <Navigation {...props}/>
-      { text }
+      <div className="home-message padded-text-div">{ text }</div>
       { getPosts() }
     </div>
   )
