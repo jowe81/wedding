@@ -12,17 +12,10 @@ services:
       - DATABASE_PASSWORD=/run/secrets/db-password
       - DATABASE_HOST=db
       - NODE_ENV=development
-    #ports:
-    #  - 10001:80
-    #  - 9229:9229
-    #  - 9230:9230
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.wedding-backend.entrypoints=wedding-api"
-      - "traefik.http.routers.wedding-backend.rule=Host(`jowe.ddns.net`)"
-      - "traefik.http.routers.wedding-backend.service=wedding-backend"
-      - "traefik.http.services.wedding-backend.loadbalancer.server.port=80"
+    ports:
+      - 10001:80
+      - 9229:9229
+      - 9230:9230
     secrets:
       - db-password
     volumes:
@@ -31,7 +24,7 @@ services:
       - ./backend/package-lock.json:/code/package-lock.json
       - back-notused:/opt/app/node_modules
     networks:
-      - t2_proxy
+      - public
       - private
     depends_on:
       - db
@@ -55,25 +48,18 @@ services:
     build:
       context: frontend
       target: development
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.wedding.entrypoints=web-secure-api"
-      - "traefik.http.routers.wedding.rule=Host(`jowe.ddns.net`)"
-      - "traefik.http.routers.wedding.service=wedding"
-      - "traefik.http.services.wedding.loadbalancer.server.port=3000"      
+    ports:
+      - 10000:3000
     volumes:
       - ./frontend/:/code
       - /code/node_modules
     networks:
-      - t2_proxy
+      - public
     depends_on:
       - backend
 networks:
+  public:
   private:
-  t2_proxy:
-    name: t2_proxy
-    external: true  
 volumes:
   back-notused:
   db-data:
