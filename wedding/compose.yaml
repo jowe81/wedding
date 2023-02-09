@@ -13,7 +13,7 @@ services:
       - DATABASE_HOST=db
       - NODE_ENV=development
     ports:
-      - 80:80
+      - 10000:80
       - 9229:9229
       - 9230:9230
     secrets:
@@ -49,7 +49,7 @@ services:
       context: frontend
       target: development
     ports:
-      - 3000:3000
+      - 10001:3000
     volumes:
       - ./frontend/:/code
       - /code/node_modules
