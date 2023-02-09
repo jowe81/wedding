@@ -58,7 +58,7 @@ services:
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
-      - "traefik.http.routers.wedding.entrypoints=web-secure-api"
+      - "traefik.http.routers.wedding.entrypoints=web-secure"
       - "traefik.http.routers.wedding.rule=Host(`jowe.ddns.net`)"
       - "traefik.http.routers.wedding.service=wedding"
       - "traefik.http.services.wedding.loadbalancer.server.port=3000"      
