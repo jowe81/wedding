@@ -2,16 +2,16 @@ services:
   backend:
     build:
       args:
-      - NODE_ENV=development
+      - NODE_ENV=production
       context: backend
-      target: development
+      target: production
     command: npm run start-watch
     environment:
       - DATABASE_DB=example
       - DATABASE_USER=root
       - DATABASE_PASSWORD=/run/secrets/db-password
       - DATABASE_HOST=db
-      - NODE_ENV=development
+      - NODE_ENV=production
     #ports:
     #  - 10001:80
     #  - 9229:9229
@@ -22,8 +22,8 @@ services:
       - "traefik.http.routers.wedding-backend.entrypoints=wedding-api"
       - "traefik.http.routers.wedding-backend.rule=Host(`jowe.ddns.net`)"
       - "traefik.http.routers.wedding-backend.tls=true"
-      - "traefik.http.routers.wedding-backend.service=wedding-backend"
-      - "traefik.http.services.wedding-backend.loadbalancer.server.port=80"
+      #- "traefik.http.routers.wedding-backend.service=wedding-backend"
+      #- "traefik.http.services.wedding-backend.loadbalancer.server.port=80"
     secrets:
       - db-password
     volumes:
@@ -33,7 +33,7 @@ services:
       - back-notused:/opt/app/node_modules
     networks:
       - t2_proxy
-      - private
+    #  - private
     depends_on:
       - db
   db:
@@ -48,14 +48,15 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     networks:
-      - private
+      #- private
+      - t2_proxy
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
   frontend:
     build:
       context: frontend
-      target: development
+      target: production
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
