@@ -21,6 +21,7 @@ services:
       ## HTTP Routers
       - "traefik.http.routers.wedding-backend.entrypoints=wedding-api"
       - "traefik.http.routers.wedding-backend.rule=Host(`jowe.ddns.net`)"
+      - "traefik.http.routers.wedding-backend.tls=true"
       - "traefik.http.routers.wedding-backend.service=wedding-backend"
       - "traefik.http.services.wedding-backend.loadbalancer.server.port=80"
     secrets:
@@ -60,8 +61,9 @@ services:
       ## HTTP Routers
       - "traefik.http.routers.wedding.entrypoints=web-secure"
       - "traefik.http.routers.wedding.rule=Host(`jowe.ddns.net`)"
+      - "traefik.http.routers.wedding.tls=true"
       - "traefik.http.routers.wedding.service=wedding"
-      - "traefik.http.services.wedding.loadbalancer.server.port=3000"      
+      - "traefik.http.services.wedding.loadbalancer.server.port=3000"
     volumes:
       - ./frontend/:/code
       - /code/node_modules
@@ -73,7 +75,7 @@ networks:
   private:
   t2_proxy:
     name: t2_proxy
-    external: true  
+    external: true
 volumes:
   back-notused:
   db-data:
