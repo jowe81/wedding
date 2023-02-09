@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 export default function useApplicationData(initialState) {
   
 //  const T_API_SERVER_URL = "http://localhost";
-  const T_API_SERVER_URL = "http://jowe.ddns.net:10001";
+  const T_API_SERVER_URL = "https://jowe.ddns.net:10001";
 
   const T_DEFAULT_EMBED_ID = 'PogK0wZLFiQ'; //default
 
