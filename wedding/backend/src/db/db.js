@@ -19,8 +19,21 @@ createTables = async () => {
         table.timestamp('created_at')
           .defaultTo(db.fn.now());
       });    
-    return log('Created table posts.');
+
+    await db.schema
+      .createTable('embedids', table => {
+        table.increments('id');
+        table.string('embedid');
+        table.timestamp('created_at')
+          .defaultTo(db.fn.now());
+      });    
+
+      console.log('Inserting default id: PogK0wZLFiQ');
+      await db('embedids').insert({ embedid: 'PogK0wZLFiQ' });
+      
+    return log('Created tables posts, embedid; inserted default id.');
   } catch(e) {
+    console.log(e);
     return log(e.sqlMessage);
   };  
 
@@ -32,7 +45,8 @@ dropTables = async () => {
 
   try {
     await db.schema.dropTable('posts');
-    return log('Dropped table posts.');
+    await db.schema.dropTable('embedids');
+    return log('Dropped tables post, embedids.');
   } catch (e) {
     return log(e.sqlMessage);
   }

@@ -7,7 +7,7 @@ const Post = ({ post }) => {
     items.push(post.city);
     items.push(post.country);
     items = items.filter(item => item !== '');
-    console.log(items);
+    
     if (items.length) {
       return (
         <div className="location">From { items.join(', ') } </div>

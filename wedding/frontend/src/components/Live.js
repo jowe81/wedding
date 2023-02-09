@@ -1,4 +1,6 @@
 import useApplicationData from "../hooks/useApplicationData";
+import Countdown from "./Countdown";
+import LiveCreds from "./LiveCreds";
 
 const Live = () => {
 
@@ -6,15 +8,14 @@ const Live = () => {
   const { status, embedId, autoplay } = appData.getData();
   
   const autoplayVal = autoplay ? '1' : '0';
-
-  console.log('autoplayVal: ', autoplayVal);
+  const muteVal = autoplay ? '0' : '1';
 
   const ytEmbed = (embedId) => (
     <div className="video-responsive">
       <iframe
         width="853"
         height="480"
-        src={`https://www.youtube.com/embed/${embedId}?autoplay=${autoplay}&mute=1`}
+        src={`https://www.youtube.com/embed/${embedId}?autoplay=${autoplay}`}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
@@ -27,53 +28,54 @@ const Live = () => {
 
   switch (status) {
     case appData.T_DURING:
-      text = <p>
-          The wedding ceremony is brought to you live by the amazing team named below.
-          These are all people that Johannes has journeyed with over the last few years.
-          If you're enoying the broadcast, maybe you would like to offer them some words of encouragement in the guestbook after!
-      </p>;
+      text = <>
+        <p>
+            The wedding ceremony is brought to you live by the amazing team named below.
+            These are all people that Johannes has journeyed with over the last few years.
+            If you're enoying the broadcast, maybe you would like to offer them some words of encouragement in the guestbook after!
+        </p>
+        <LiveCreds />
+      </>;
       break;
 
     case appData.T_AFTER:
-      text = <p>
+      text = <>
+        <p>
           The wedding ceremony was brought to you live by the amazing team named below.
           These are all people that Johannes has journeyed with over the last few years.
           If you enjoyed the broadcast, maybe you would like to offer some words of encouragement in the guestbook!
           Note that the guestbook closes at the end of February 20.
-      </p>
+        </p>
+        <LiveCreds />
+      </>
       break;
 
     case appData.T_CLOSED:
-      text = <p>
+      text = <>
+        <p>
           The wedding ceremony was brought to you live by the amazing team named below.
-      </p>
+        </p>
+        <LiveCreds />
+      </>      
+      break;
+
+    case appData.T_PREROLL:
+      text = <>        
+      </>
       break;
 
   }
-  
 
   return (
     <>
       <div className="live-embed">
         { ytEmbed(embedId) }
       </div>
+
+      { (status === appData.T_PREROLL) && <Countdown />}
+
       <div className="home-message padded-text-div">
         {text}
-        <p>
-          <small className="text-grey font-small">
-          Kate Horodyski - Live Video Director,
-          Jasna Stojanovic - Broadcast Camera Operator,
-          Adrian Chung - Broadcast Camera Operator,
-          Raymond Lew - Broadcast Camera Operator (PTZ cameras),
-          Kevin Chow - Broadcast Camera Operator (Handheld),
-
-          Boris Chung - Broadcast Audio / Media Operator,
-          Lorraine Ma - Front of House Media Operator,
-
-          Brad Danyluk - Front of House Audio Engineer,
-          Lucas Swaddling - Technical Director
-          </small>
-        </p>
       </div>
     </>
   );

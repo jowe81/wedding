@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require("./db/db");
 const posts = require("./modules/posts");
+const embedids = require("./modules/embedids");
+
 // middleware that is specific to this router
 router.use((req, res, next) => {
   console.log('Time: ', Date.now())
@@ -26,8 +28,22 @@ router.get('/posts', (req, res) => {
 })
 
 router.post('/posts', (req, res) => {
-  posts.create(req.body, 'req.body');
-  res.send('200');
+  posts
+    .create(req.body)
+    .then(() => res.send('200'));
+});
+
+
+router.post('/embed-id', (req, res) => {
+  embedids
+    .create(req.body)
+    .then(embedid => res.send(embedid));
+});
+
+router.get('/embed-id', (req, res) => {
+  embedids
+    .get()
+    .then(embedid => res.send(embedid));
 });
 
 router.get('/create_tables', async (req, res) => {

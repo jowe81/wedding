@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Post from "./Post";
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -8,7 +7,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Navigation from "./Navigation";
 
-const Sign = (props) => {
+const Sign = () => {
   // const [name, setName] = useState('');
   // const [email, setEmail] = useState('');
   // const [city, setCity] = useState('');
@@ -336,7 +335,7 @@ const Sign = (props) => {
 
   return (
     <div>
-      <h1>Wedding Guestbook</h1>
+      <h1 className="top-header">Wedding Guestbook</h1>
       <Navigation />
 
       { getRequiredFieldsMissing() }

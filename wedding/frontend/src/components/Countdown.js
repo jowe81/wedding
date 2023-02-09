@@ -12,7 +12,6 @@ export default function Countdown(props) {
   }, []);
 
   const update = () => {
-    console.log("running update");
     const timezone_offset_min = new Date().getTimezoneOffset();
     const timezone_offset_ms = timezone_offset_min * 60 * 1000;
     const now = new Date().getTime();

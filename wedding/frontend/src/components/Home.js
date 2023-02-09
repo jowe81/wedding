@@ -4,21 +4,18 @@ import HomeBefore from "./HomeBefore";
 import HomeDuring from "./HomeDuring";
 import HomeAfter from "./HomeAfter";
 
-import Countdown from './Countdown';
-import Badge from 'react-bootstrap/Badge';
-
 import useApplicationData from "../hooks/useApplicationData";
 
-import { useEffect } from "react";
-
-const Home = (props) => {
+const Home = () => {
 
   const appData = useApplicationData();
   const {status, embedId} = appData.getData();
-  console.log(status);
+
+  console.log('Current state: ', status);
+
   let content;
 
-  if (status === appData.T_DURING) {
+  if (status === appData.T_PREROLL || status === appData.T_DURING) {
     content = (
       <HomeDuring />
     );
@@ -35,8 +32,8 @@ const Home = (props) => {
   return (
     <div> 
       
-      <h1>Welcome to Our Wedding</h1>
-      <Navigation {...props} />
+      <h1 className="top-header">Welcome to Our Wedding</h1>
+      <Navigation />
 
       { content }
       

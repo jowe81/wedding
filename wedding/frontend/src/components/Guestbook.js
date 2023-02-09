@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import useApplicationData from "../hooks/useApplicationData";
 
-const Guestbook = (props) => {
+const Guestbook = () => {
   const appData = useApplicationData();
   const { status, guestbookOpen } = appData.getData();
 
@@ -72,8 +72,8 @@ const Guestbook = (props) => {
 
   return (
     <div>
-      <h1>Wedding Guestbook</h1>
-      <Navigation {...props}/>
+      <h1 className="top-header">Wedding Guestbook</h1>
+      <Navigation />
       <div className="home-message padded-text-div">{ text }</div>
       { getPosts() }
     </div>

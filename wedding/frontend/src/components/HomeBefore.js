@@ -1,7 +1,10 @@
+import Countdown from "./Countdown";
+
 const HomeBefore = () => {
 
   return (
     <div className="home-message padded-text-div">
+      <Countdown />
       <h4>February 18th, 2:00pm (PST)</h4>
       <br></br>
       <h5>Join us live from anywhere!</h5>
