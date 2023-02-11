@@ -20,7 +20,7 @@ services:
       - "traefik.enable=true"
       ## HTTP Routers
       - "traefik.http.routers.wedding-backend.entrypoints=wedding-api"
-      - "traefik.http.routers.wedding-backend.rule=Host(`jessandjohannes.com) || Host(`www.jessandjohannes.com`)"
+      - "traefik.http.routers.wedding-backend.rule=Host(`jessandjohannes.com`) || Host(`www.jessandjohannes.com`)"
       - "traefik.http.routers.wedding-backend.tls=true"
       - "traefik.http.routers.wedding-backend.tls.certresolver=letsencrypt"
     secrets:
@@ -63,7 +63,7 @@ services:
       - "traefik.http.routers.wedding.entrypoints=web-secure"
       - "traefik.http.routers.wedding.rule=Host(`jessandjohannes.com`) || Host(`www.jessandjohannes.com`)"
       - "traefik.http.routers.wedding.tls=true"
-      - "traefik.http.routers.wedding-backend.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.wedding.tls.certresolver=letsencrypt"
       - "traefik.http.routers.wedding.service=wedding"
       - "traefik.http.services.wedding.loadbalancer.server.port=3000"
     volumes:
