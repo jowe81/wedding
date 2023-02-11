@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# User uploads
+/data
+
+
 # testing
 /coverage
 
