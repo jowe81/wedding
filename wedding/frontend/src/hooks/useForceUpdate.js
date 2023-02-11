@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export default function useForceUpdate() {
 
-  //console.log('Trigger rerender');
+  console.log('Trigger rerender');
 
   const [value, setValue] = useState(0);
 

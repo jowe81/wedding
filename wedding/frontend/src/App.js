@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import useApplicationData from "./hooks/useApplicationData";
-import useForceUpdate from "./hooks/useForceUpdate";
 
 import "./App.scss";
 import { Routes, Route } from "react-router-dom"
@@ -18,28 +17,18 @@ import '@fontsource/roboto/700.css';
 
 function App() {
 
-  const appData = useApplicationData();
-  const props = appData.getData();
-
-  const forceUpdate = useForceUpdate();
-
-  useEffect(() => {
-    setInterval(forceUpdate, 5000);
-  }, []);
-  
-  useEffect(() => {
-    document.title = "jowe.ca";  
-  }, []);
+  const appData = useApplicationData(true);
+    
   
   return (
     <div className="App">
       <img className="header_image" src={HeaderImage}/>
       <Routes>
-        <Route path="/" element={ <Home /> } />
-        <Route path="guestbook" element={ <Guestbook /> } />
-        <Route path="sign" element={ <Sign /> } />
+        <Route path="/" element={ <Home {...appData}/> } />
+        <Route path="guestbook" element={ <Guestbook {...appData}/> } />
+        <Route path="sign" element={ <Sign {...appData}/> } />
 
-        <Route path=".update-embed-id" element={ <UpdateEmbedId /> } />
+        <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
       </Routes>
       <div className="overlay"></div>
       

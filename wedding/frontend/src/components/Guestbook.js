@@ -3,10 +3,7 @@ import Post from "./Post";
 import Navigation from "./Navigation";
 import { useNavigate } from "react-router-dom";
 
-import useApplicationData from "../hooks/useApplicationData";
-
-const Guestbook = () => {
-  const appData = useApplicationData();
+const Guestbook = (appData) => {
   const { status, guestbookOpen } = appData.getData();
 
   const [posts, setPosts] = useState([]);
@@ -27,10 +24,10 @@ const Guestbook = () => {
   }, []);
 
   const getPosts = () => {
-    return posts.map(post => <Post key = {post.id} post = { post } />);
+    return posts.map(post => <Post key = {post.id} post = { post } appData = {appData}/>);
   }
   
-  let empty_guestbook = 'Nothing to display yet! Be the first one to sign!';
+  let empty_guestbook = <span>Nothing to display yet.<br></br>Be the first one to sign!</span>;
   let not_yet_open = 'The guestbook has not opened yet. You will be able to sign it between February 18th and February 20th.';
   let no_longer_open = 'The guestbook no longer accepts new entries.';
   let please_sign = "Please sign the guestbook if you haven't yet!"
@@ -73,7 +70,7 @@ const Guestbook = () => {
   return (
     <div>
       <h1 className="top-header">Wedding Guestbook</h1>
-      <Navigation />
+      <Navigation {...appData}/>
       <div className="home-message padded-text-div">{ text }</div>
       { getPosts() }
     </div>

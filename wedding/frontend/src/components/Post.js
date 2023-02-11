@@ -1,8 +1,4 @@
-import useApplicationData from "../hooks/useApplicationData";
-
-const Post = ({ post }) => {
-
-  const appData = useApplicationData();
+const Post = ({appData, post}) => {
 
   const name  = post => post.name ? <div className="name">{ post.name } </div> : null;
   

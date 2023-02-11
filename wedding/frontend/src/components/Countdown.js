@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Badge from 'react-bootstrap/Badge';
 
-export default function Countdown(props) {
+export default function Countdown() {
 
   const [ms, setMs] = useState(0);
  

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import useApplicationData from '../hooks/useApplicationData';
 import { Button, Box, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Navigation from "./Navigation";
@@ -10,9 +9,8 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Autocomplete from '@mui/material/Autocomplete';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
-const UploadImage = () => {
+const UploadImage = (appData) => {
   
-  const appData = useApplicationData();
   const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
@@ -61,7 +59,6 @@ const UploadImage = () => {
 
   const handleChange = (e) => {
     if (e.target.files[0].size <= maximumFileSizeMB * 1024 * 1024) {
-      console.log('set imate', e.target.files[0]);
       setImage(e.target.files[0]);
       setPreview(URL.createObjectURL(e.target.files[0]));
     } else {
@@ -137,7 +134,7 @@ const UploadImage = () => {
     <>
       <div>
         <h1 className="top-header">Wedding Guestbook</h1>
-        <Navigation />
+        <Navigation {...appData}/>
         { requiredFieldsMissing && getRequiredFieldsMissing() }
         <div className="guestbook-form">
           <div>

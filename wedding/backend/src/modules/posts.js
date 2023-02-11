@@ -1,5 +1,5 @@
 const db = require("../db/db");
-const { log } = require("../helpers")
+const { log, verifyDirectory } = require("../helpers")
 const sharp = require('sharp');
 
 
@@ -21,17 +21,21 @@ const create = async (data) => {
 
 const generateThumb = async (file) => {
   try {
-    const { filename } = file;
+    verifyDirectory(`/uploads/thumbs/`);
 
-    let inputFile  = `/uploads/${filename}`;
-    let outputFile = `/uploads/thumbs/${filename}`;
+    let inputPath = `/uploads/`;
+    let outputPath = `/uploads/thumbs/`
     
-    return sharp(inputFile).resize({ width: 250 }).toFile(outputFile)
+    const { filename } = file;
+    
+    return sharp(inputPath + filename)
+        .resize({ width: 250 })
+        .toFile(outputPath + filename)
         .then(function(newFileInfo) {
             console.log("Successfully resized", newFileInfo);
         })
         .catch(function(err) {
-            console.log("Error occured");
+            console.log("Error occured", err);
         });    
   } catch (e) {
     return log(e);

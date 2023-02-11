@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-export default function useApplicationData(initialState) {
+export default function useApplicationData(init) {
   
   const T_API_SERVER_ROOT = "http://localhost/";
   const T_API_SERVER_URL = `${T_API_SERVER_ROOT}api/`;
@@ -17,30 +17,28 @@ export default function useApplicationData(initialState) {
   const T_CLOSED = 'closed';
 
   // For testing:
-  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][4];
+  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][3];
 
   // const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-10T02:11:00.000+00:00");
   // const T_DATE_SWITCH_TO_DURING =  new Date("2023-02-10T02:11:00.000+00:00");
   // const T_DATE_SWITCH_TO_AFTER  =  new Date("2023-02-10T02:13:00.000+00:00");
   // const T_DATE_SWITCH_TO_CLOSED =  new Date("2023-02-10T02:14:00.000+00:00");    
-  // const PREROLL_MINUTES = 1;
-
+  
 
   //Actuals:
-  const PREROLL_MINUTES = 15;
-  const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-18T21:45:00.000+00:00");
-  const T_DATE_SWITCH_TO_DURING  = new Date("2023-02-18T22:00:00.000+00:00");
+  const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-18T21:30:00.000+00:00");
+  const T_DATE_SWITCH_TO_DURING  = new Date("2023-02-18T21:55:00.000+00:00");
   const T_DATE_SWITCH_TO_AFTER   = new Date("2023-02-18T23:45:00.000+00:00");
   const T_DATE_SWITCH_TO_CLOSED  = new Date("2023-02-20T08:00:00.000+00:00");
   
-
-
-  function addMinutes(date, minutes) {
-    return new Date(date.getTime() + minutes * 60000);  
+  const displaySchedule = () => {
+    console.log('App is starting...');
+    console.log('Switching to preroll: ', T_DATE_SWITCH_TO_PREROLL.toLocaleString());
+    console.log('Switching to during:  ', T_DATE_SWITCH_TO_DURING.toLocaleString());
+    console.log('Switching to after:   ', T_DATE_SWITCH_TO_AFTER.toLocaleString());
+    console.log('Switching to closed:  ', T_DATE_SWITCH_TO_CLOSED.toLocaleString());  
   }
-
-  const T_DATE_PREOLL_ENDS = addMinutes(T_DATE_SWITCH_TO_DURING, PREROLL_MINUTES);
-
+  
   const [embedId, setEmbedId] = useState(T_DEFAULT_EMBED_ID);
 
   const retrieveEmbedId = () => {
@@ -51,14 +49,14 @@ export default function useApplicationData(initialState) {
 
         if (newEmbedId && (newEmbedId !== embedId)) {
           //EmbedId changed - update.
-          console.log('Received new Embed Id:', newEmbedId);
-          setEmbedId(res.data?.embedid);        
+          console.log('Received new Embed Id: ', newEmbedId);
+          setEmbedId(newEmbedId);        
         } else {
           //EmbedId didn't change or was removed - ignore that.
           if (newEmbedId) {
             console.log('Confirmed Embed Id: ', newEmbedId);
           } else {
-            console.warn('Received Empty Embed Id', newEmbedId);
+            console.warn('Received Empty Embed Id:', newEmbedId);
           }
         }
       })
@@ -66,13 +64,19 @@ export default function useApplicationData(initialState) {
   };
 
 
-  //Retrieve instantly on load
-  useEffect(retrieveEmbedId, []);
-
-  //Set timer to periodically check for updates
+  
+  //Initialization
   useEffect(() => {
-    const clear = setInterval(retrieveEmbedId, 60000); //Once a minute
-    return () => { clearInterval(clear)};
+    if (init) {
+      displaySchedule();
+
+      //Retrieve embed ID instantly on load
+      retrieveEmbedId();
+
+      //Set a timer to check periodically
+      const clear = setInterval(retrieveEmbedId, 60000); //Once a minute
+      return () => { clearInterval(clear)};  
+    }
   }, []);
 
   const getStatus = () => {
@@ -132,6 +136,8 @@ export default function useApplicationData(initialState) {
     T_DURING,
     T_AFTER,
     T_CLOSED,
+
+    T_DEFAULT_EMBED_ID,
 
     T_API_SERVER_URL,
     T_API_SERVER_IMAGES,

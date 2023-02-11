@@ -1,11 +1,8 @@
-import useApplicationData from "../hooks/useApplicationData";
 import { TextField, Button } from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from "react";
 
-const UpdateEmbedId = () => {
-
-  const appData = useApplicationData();
+const UpdateEmbedId = (appData) => {
 
   const [embedId, setEmbedId] = useState('');
   const [storedEmbedId, setStoredEmbedId] = useState();
@@ -68,7 +65,7 @@ const UpdateEmbedId = () => {
         </div>
       </div>
       <div className="home-message padded-text-div">
-        <Button type="button" className="btn btn-warning" onClick={postEmbedId}>Submit New Embed Id</Button>
+        <Button type="button" variant="contained" className="btn btn-warning" onClick={postEmbedId}>Submit New Embed Id</Button>
       </div>
     </div>
   )

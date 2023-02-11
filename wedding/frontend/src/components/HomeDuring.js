@@ -1,12 +1,13 @@
 import Live from "./Live";
 
-const HomeDuring = () => {
+const HomeDuring = (appData) => {
+  const { status } = appData.getData();
 
   return (
       <div className="home-message padded-text-div">        
-        <h5>We are live!</h5>
+        <h5>We are {(status === appData.T_PREROLL) && 'about to go'} live!</h5>
         <small className="text-secondary">Note: You may need to unmute the video.</small>
-        <Live />        
+        <Live {...appData}/>        
       </div>    
   );
 }

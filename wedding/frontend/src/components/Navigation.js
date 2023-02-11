@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 
-import useApplicationData from "../hooks/useApplicationData";
-
-const Navigation = () => {
-  const appData = useApplicationData();
+const Navigation = (appData) => {
   const {guestbookOpen, status} = appData.getData();
   
   return (

@@ -1,12 +1,26 @@
-import useApplicationData from "../hooks/useApplicationData";
+import { useEffect, useState } from "react";
 import Countdown from "./Countdown";
 import LiveCreds from "./LiveCreds";
 
-const Live = () => {
-
-  const appData = useApplicationData();
+const Live = (appData) => {
   const { status, embedId, autoplay } = appData.getData();
+
+  const [n, setN] = useState(0);
+  console.log(`Rendering Live Component (${n}, ${embedId})`);
   
+  useEffect(() => {
+    console.log('Setting force-update interval.');
+    const clear = setInterval(() => {
+      console.log('Forcing re-render.');
+      setN(Math.floor(Math.random() * 1000000));
+    }, 20000);
+    return () => {
+      console.log('Clearing force-update interval.');
+      clearInterval(clear);
+    };
+  }, []);
+
+
   const autoplayVal = autoplay ? '1' : '0';
   const muteVal = autoplay ? '0' : '1';
 
@@ -15,7 +29,7 @@ const Live = () => {
       <iframe
         width="853"
         height="480"
-        src={`https://www.youtube.com/embed/${embedId}?autoplay=${autoplay}`}
+        src={`https://www.youtube-nocookie.com/embed/${embedId}?autoplay=${autoplay}`}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
