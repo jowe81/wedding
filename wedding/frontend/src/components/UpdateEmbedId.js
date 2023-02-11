@@ -60,7 +60,7 @@ const UpdateEmbedId = (appData) => {
             className="guestbook-form-element"
             id="name" 
             variant="outlined" 
-            placeholder="Name"
+            placeholder=""
           />
         </div>
       </div>

@@ -19,6 +19,10 @@ const Guestbook = (appData) => {
 
   useEffect(fetchData, []);
 
+  useEffect(() => {
+    window.scrollTo({top: 0});
+  }, []);
+
   const getPosts = () => {
     return posts.map(post => <Post key = {post.id} post = { post } appData = {appData}/>);
   }

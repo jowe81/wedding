@@ -10,7 +10,7 @@ export default function useApplicationData(init) {
   const T_API_SERVER_URL = `${T_API_SERVER_ROOT}api/`;
   const T_API_SERVER_IMAGES = `${T_API_SERVER_ROOT}images/`;
 
-  const T_DEFAULT_EMBED_ID = 'PogK0wZLFiQ'; //default
+  const T_DEFAULT_EMBED_ID = constants.T_DEFAULT_EMBED_ID; //default
 
   const T_BEFORE = 'before';
   const T_PREROLL = 'preroll';
@@ -19,7 +19,7 @@ export default function useApplicationData(init) {
   const T_CLOSED = 'closed';
 
   // For testing:
-  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][0];
+  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][2];
 
   // const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-10T02:11:00.000+00:00");
   // const T_DATE_SWITCH_TO_DURING =  new Date("2023-02-10T02:11:00.000+00:00");
@@ -46,20 +46,13 @@ export default function useApplicationData(init) {
   const retrieveEmbedId = () => {
     return axios
       .get(T_API_SERVER_URL + "embed-id")
-      .then(res => {
-        const newEmbedId = res.data?.embedid;
-
-        if (newEmbedId && (newEmbedId !== embedId)) {
-          //EmbedId changed - update.
-          console.log('Received new Embed Id: ', newEmbedId);
-          setEmbedId(newEmbedId);        
+      .then(res => {        
+        const newEmbedId = res.data?.embedid;        
+        if (newEmbedId) {        
+          console.log('Server: ', newEmbedId);  
+          setEmbedId(newEmbedId);          
         } else {
-          //EmbedId didn't change or was removed - ignore that.
-          if (newEmbedId) {
-            console.log('Confirmed Embed Id: ', newEmbedId);
-          } else {
-            console.warn('Received Empty Embed Id:', newEmbedId);
-          }
+          console.warn('Received empty embedId from server.');
         }
       })
       .catch(err => console.warn(err));
@@ -119,7 +112,7 @@ export default function useApplicationData(init) {
   
   const isAutoplayEnabled = () => {
     const status = getStatus();    
-    return status === T_DURING;
+    return [T_DURING, T_PREROLL].includes(status);
   }
 
   const getData = () => {
