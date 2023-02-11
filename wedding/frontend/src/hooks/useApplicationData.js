@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 
 export default function useApplicationData(initialState) {
   
-//  const T_API_SERVER_URL = "http://localhost";
-  const T_API_SERVER_URL = "https://jowe.ddns.net:10001";
+  const T_API_SERVER_URL = "http://localhost";
+//  const T_API_SERVER_URL = "https://jowe.ddns.net:10001";
 
   const T_DEFAULT_EMBED_ID = 'PogK0wZLFiQ'; //default
 
@@ -15,7 +15,7 @@ export default function useApplicationData(initialState) {
   const T_CLOSED = 'closed';
 
   // For testing:
-  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][0];
+  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][4];
 
   // const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-10T02:11:00.000+00:00");
   // const T_DATE_SWITCH_TO_DURING =  new Date("2023-02-10T02:11:00.000+00:00");

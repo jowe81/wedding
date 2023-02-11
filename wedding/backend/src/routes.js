@@ -4,13 +4,41 @@ const db = require("./db/db");
 const posts = require("./modules/posts");
 const embedids = require("./modules/embedids");
 
+
+const multer = require('multer');
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}.jpg`);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const extension = file.mimetype.split("/")[1];
+
+  if (['jpg', 'jpeg'].includes(extension.toLowerCase())) {
+    console.log('storing image');
+    cb(null, true);
+  } else {
+    cb(new Error("Not a jpeg image!"), false);
+  }
+};
+
+const uploadImg = multer({storage, fileFilter}).single('image');
+
 // middleware that is specific to this router
 router.use((req, res, next) => {
-  console.log('Time: ', Date.now())
-  console.log('Data: ', req.params, req.query, req.body);
+  console.log('Time: ', new Date().toLocaleString())
+  console.log('Data: ', req.params, req.query, req.body, req.file);
   next()
 })
 
+
+// ************ Posts ***************************************
 
 // Get single entry
 router.get('/posts/:id', (req, res) => {  
@@ -27,13 +55,20 @@ router.get('/posts', (req, res) => {
     .then(posts => res.send(posts));
 })
 
-router.post('/posts', (req, res) => {
+// Create a new entry
+router.post('/posts', uploadImg, (req, res) => {
+  const file = req.file;
+  const post = { ...req.body };
+    
   posts
-    .create(req.body)
-    .then(() => res.send('200'));
+    .create({ ...req.body, image: file?.filename})  
+    .then(post => res.json({ post }))
+    .catch(e => {
+      res.error('500');
+    });
 });
 
-
+// ************ Embed-id *************************************
 router.post('/embed-id', (req, res) => {
   embedids
     .create(req.body)

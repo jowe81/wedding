@@ -9,12 +9,27 @@ const { log } = require("../helpers")
  */
 const create = async (data) => {  
   try {      
-    await db._('posts').insert(data);
-    return log(data);
+    return await db._('posts')
+      .insert(data)
+      .returning('id')
+      .then(([id]) => get(id));
   } catch (e) {
     return log(e.sqlMessage);
   }
 };
+
+const attachImage = async (postId, file) => {
+  try {
+    const { filename } = file;
+
+    return await db._('posts')
+      .where('id', postId)
+      .update({ 'image': filename })
+      .then(() => filename);
+  } catch (e) {
+    return log(e);
+  } 
+}
 
 const get = async id => {
   try {      
@@ -36,6 +51,8 @@ const getAll = async () => {
 
 module.exports = {
   create,
+  attachImage,
   getAll,
   get,
+  //upload,
 };

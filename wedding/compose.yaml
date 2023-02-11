@@ -12,28 +12,21 @@ services:
       - DATABASE_PASSWORD=/run/secrets/db-password
       - DATABASE_HOST=db
       - NODE_ENV=development
-    #ports:
-    #  - 10001:80
-    #  - 9229:9229
-    #  - 9230:9230
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.wedding-backend.entrypoints=wedding-api"
-      - "traefik.http.routers.wedding-backend.rule=Host(`jowe.ddns.net`)"
-      - "traefik.http.routers.wedding-backend.tls=true"
-      #- "traefik.http.routers.wedding-backend.service=wedding-backend"
-      #- "traefik.http.services.wedding-backend.loadbalancer.server.port=80"
+    ports:
+      - 80:80
+      - 9229:9229
+      - 9230:9230
     secrets:
       - db-password
     volumes:
+      - ./backend/data:/uploads
       - ./backend/src:/code/src:ro
       - ./backend/package.json:/code/package.json
       - ./backend/package-lock.json:/code/package-lock.json
       - back-notused:/opt/app/node_modules
     networks:
-      - t2_proxy
-    #  - private
+      - public
+      - private
     depends_on:
       - db
   db:
@@ -48,8 +41,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     networks:
-      #- private
-      - t2_proxy
+      - private
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
@@ -57,26 +49,18 @@ services:
     build:
       context: frontend
       target: development
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.wedding.entrypoints=web-secure"
-      - "traefik.http.routers.wedding.rule=Host(`jowe.ddns.net`)"
-      - "traefik.http.routers.wedding.tls=true"
-      - "traefik.http.routers.wedding.service=wedding"
-      - "traefik.http.services.wedding.loadbalancer.server.port=3000"
+    ports:
+      - 3000:3000
     volumes:
       - ./frontend/:/code
       - /code/node_modules
     networks:
-      - t2_proxy
+      - public
     depends_on:
       - backend
 networks:
+  public:
   private:
-  t2_proxy:
-    name: t2_proxy
-    external: true
 volumes:
   back-notused:
   db-data:

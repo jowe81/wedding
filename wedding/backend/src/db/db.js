@@ -15,6 +15,7 @@ createTables = async () => {
         table.string('city');
         table.string('country');
         table.string('email');
+        table.string('image');
         table.text('text', 'mediumtext');
         table.timestamp('created_at')
           .defaultTo(db.fn.now());
