@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+import constants from "../_constants";
+
+
 export default function useApplicationData(init) {
   
-  const T_API_SERVER_ROOT = "http://localhost/";
+  const T_API_SERVER_ROOT = constants.T_API_SERVER_ROOT;
   const T_API_SERVER_URL = `${T_API_SERVER_ROOT}api/`;
   const T_API_SERVER_IMAGES = `${T_API_SERVER_ROOT}images/`;
-//  const T_API_SERVER_URL = "https://jowe.ddns.net:10001";
 
   const T_DEFAULT_EMBED_ID = 'PogK0wZLFiQ'; //default
 
