@@ -2,16 +2,16 @@ services:
   backend:
     build:
       args:
-      - NODE_ENV=development
+      - NODE_ENV=production
       context: backend
-      target: development
+      target: production
     command: npm run start-watch
     environment:
       - DATABASE_DB=example
       - DATABASE_USER=root
       - DATABASE_PASSWORD=/run/secrets/db-password
       - DATABASE_HOST=db
-      - NODE_ENV=development
+      - NODE_ENV=production
     #ports:
     #  - 10001:80
     #  - 9229:9229
@@ -20,17 +20,16 @@ services:
       - "traefik.enable=true"
       ## HTTP Routers
       - "traefik.http.routers.wedding-backend.entrypoints=wedding-api"
-      - "traefik.http.routers.wedding-backend.rule=Host(`jowe.ddns.net`)"
+      - "traefik.http.routers.wedding-backend.rule=Host(`jessandjohannes.com) || Host(`www.jessandjohannes.com`)"
       - "traefik.http.routers.wedding-backend.tls=true"
-      #- "traefik.http.routers.wedding-backend.service=wedding-backend"
-      #- "traefik.http.services.wedding-backend.loadbalancer.server.port=80"
+      - "traefik.http.routers.wedding-backend.tls.certresolver=letsencrypt"
     secrets:
       - db-password
     volumes:
-      - ./backend/:/code
-      #- ./backend/src:/code/src:ro
-      #- ./backend/package.json:/code/package.json
-      #- ./backend/package-lock.json:/code/package-lock.json
+      - ./backend/uploads:/uploads
+      - ./backend/src:/code/src:ro
+      - ./backend/package.json:/code/package.json
+      - ./backend/package-lock.json:/code/package-lock.json
       - back-notused:/opt/app/node_modules
     networks:
       - t2_proxy
@@ -57,13 +56,14 @@ services:
   frontend:
     build:
       context: frontend
-      target: development
+      target: production
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
       - "traefik.http.routers.wedding.entrypoints=web-secure"
-      - "traefik.http.routers.wedding.rule=Host(`jowe.ddns.net`)"
+      - "traefik.http.routers.wedding.rule=Host(`jessandjohannes.com`) || Host(`www.jessandjohannes.com`)"
       - "traefik.http.routers.wedding.tls=true"
+      - "traefik.http.routers.wedding-backend.tls.certresolver=letsencrypt"
       - "traefik.http.routers.wedding.service=wedding"
       - "traefik.http.services.wedding.loadbalancer.server.port=3000"
     volumes:
