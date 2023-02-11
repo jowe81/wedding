@@ -1,6 +1,8 @@
 // simple node web server that displays hello world
 // optimized for Docker image
 
+require('dotenv').config();
+console.log('Environment NODE_ENV: ', process.env.NODE_ENV);
 
 const express = require("express");
 // this example uses express web framework so we know what longer build times
