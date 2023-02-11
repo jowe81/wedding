@@ -1,4 +1,8 @@
+import useApplicationData from "../hooks/useApplicationData";
+
 const Post = ({ post }) => {
+
+  const appData = useApplicationData();
 
   const name  = post => post.name ? <div className="name">{ post.name } </div> : null;
   
@@ -15,6 +19,8 @@ const Post = ({ post }) => {
     }
   };
 
+  const image = post => post.image ? <div><img className='thumb' src={appData.T_API_SERVER_IMAGES + post.image} /></div> : '';
+
   const text = post => post.text ? <div className="text"> { post.text } </div> : null;
   const createdAt = post => {
     const date = new Date(post.created_at);
@@ -23,10 +29,11 @@ const Post = ({ post }) => {
 
   return (
     <div className="post">
+      { image(post) }
       { name(post) }
       { location(post) }
       { text(post) }
-      { createdAt(post) }
+      { createdAt(post) }      
     </div>
   )
 

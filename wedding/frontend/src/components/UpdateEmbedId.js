@@ -14,7 +14,7 @@ const UpdateEmbedId = () => {
 
   useEffect(() => {    
     axios
-      .get(appData.T_API_SERVER_URL + "/api/embed-id")
+      .get(appData.T_API_SERVER_URL + "embed-id")
       .then(res => {
         setStoredEmbedId(res.data?.embedid);
         console.log('Retrieved currently stored Embed Id from server:', res.data);
@@ -29,7 +29,7 @@ const UpdateEmbedId = () => {
   const postEmbedId = () => {
     console.log('Posting new embedId: ', embedId);
     axios
-      .post(appData.T_API_SERVER_URL + "/api/embed-id", { embedId })
+      .post(appData.T_API_SERVER_URL + "embed-id", { embedId })
       .then(res => {
         setStoredEmbedId(res.data?.embedId);
         console.log('Confirmed posted Embed Id: ', res.data);

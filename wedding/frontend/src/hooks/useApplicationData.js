@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 
 export default function useApplicationData(initialState) {
   
-  const T_API_SERVER_URL = "http://localhost";
+  const T_API_SERVER_ROOT = "http://localhost/";
+  const T_API_SERVER_URL = `${T_API_SERVER_ROOT}api/`;
+  const T_API_SERVER_IMAGES = `${T_API_SERVER_ROOT}images/`;
 //  const T_API_SERVER_URL = "https://jowe.ddns.net:10001";
 
   const T_DEFAULT_EMBED_ID = 'PogK0wZLFiQ'; //default
@@ -43,7 +45,7 @@ export default function useApplicationData(initialState) {
 
   const retrieveEmbedId = () => {
     return axios
-      .get(T_API_SERVER_URL + "/api/embed-id")
+      .get(T_API_SERVER_URL + "embed-id")
       .then(res => {
         const newEmbedId = res.data?.embedid;
 
@@ -132,6 +134,7 @@ export default function useApplicationData(initialState) {
     T_CLOSED,
 
     T_API_SERVER_URL,
+    T_API_SERVER_IMAGES,
   }
   
 }

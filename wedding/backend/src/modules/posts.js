@@ -1,5 +1,6 @@
 const db = require("../db/db");
 const { log } = require("../helpers")
+const sharp = require('sharp');
 
 
 /**
@@ -18,14 +19,20 @@ const create = async (data) => {
   }
 };
 
-const attachImage = async (postId, file) => {
+const generateThumb = async (file) => {
   try {
     const { filename } = file;
 
-    return await db._('posts')
-      .where('id', postId)
-      .update({ 'image': filename })
-      .then(() => filename);
+    let inputFile  = `/uploads/${filename}`;
+    let outputFile = `/uploads/thumbs/${filename}`;
+    
+    return sharp(inputFile).resize({ width: 250 }).toFile(outputFile)
+        .then(function(newFileInfo) {
+            console.log("Successfully resized", newFileInfo);
+        })
+        .catch(function(err) {
+            console.log("Error occured");
+        });    
   } catch (e) {
     return log(e);
   } 
@@ -51,7 +58,7 @@ const getAll = async () => {
 
 module.exports = {
   create,
-  attachImage,
+  generateThumb,
   getAll,
   get,
   //upload,

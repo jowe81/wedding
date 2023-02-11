@@ -19,7 +19,7 @@ services:
     secrets:
       - db-password
     volumes:
-      - ./backend/data:/uploads
+      - ./backend/uploads:/uploads
       - ./backend/src:/code/src:ro
       - ./backend/package.json:/code/package.json
       - ./backend/package-lock.json:/code/package-lock.json

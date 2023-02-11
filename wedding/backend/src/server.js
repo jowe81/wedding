@@ -1,6 +1,14 @@
 // simple node web server that displays hello world
 // optimized for Docker image
 
+
+const fs = require('fs');
+const dir = '/uploads/thumbs/'; 
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir, { recursive: true });
+}
+
 const express = require("express");
 // this example uses express web framework so we know what longer build times
 // do and how Dockerfile layer ordering matters. If you mess up Dockerfile ordering
@@ -16,11 +24,14 @@ const db = require("./db/connect");
 
 // Appi
 const app = express();
+
 const helmet = require("helmet");
 const cors = require("cors");
 
 app.use(morgan("common"));
 app.use(express.json()); 
+app.use(express.static('/uploads'));
+app.use('/images', express.static('/uploads/thumbs'));
 
 app.use(helmet());
 app.use(cors());

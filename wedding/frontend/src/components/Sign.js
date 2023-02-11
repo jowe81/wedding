@@ -11,6 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
 const UploadImage = () => {
+  
   const appData = useApplicationData();
   const navigate = useNavigate();
 
@@ -40,7 +41,21 @@ const UploadImage = () => {
     setPost(newPost);    
   }
 
-  const countries = ['Canada', 'Germany', 'USA', 'United Kingdom', 'Australia'];
+  const countries = [
+    'Canada', 
+    'Germany', 
+    'United States',
+    'United Kingdom',
+    'Switzerland',
+    'Holland',
+    'Sweden',
+    'Brazil',
+    'South Africa',
+    'Ghana',
+    'Pakistan',
+    'Australia',
+    'Other'
+  ];
 
   const maximumFileSizeMB = 5;
 
@@ -78,7 +93,7 @@ const UploadImage = () => {
       
   
       return axios.post(
-          `${appData.T_API_SERVER_URL}/api/posts`,
+          `${appData.T_API_SERVER_URL}posts`,
           formData, 
           { headers: { "Content-Type": "multipart/form-data" },
         })    
@@ -151,6 +166,7 @@ const UploadImage = () => {
           </div>
           <div>
             <div className="fieldLabel">Your Location</div>
+            <div className="annotation">Optional</div>
             <TextField 
               value={post.city}
               onChange={updateState}
@@ -173,10 +189,9 @@ const UploadImage = () => {
           </div>
           <div>
             <div className="fieldLabel">Your Message:</div>
-            <TextareaAutosize className="messageText"
+            <TextareaAutosize className="guestbook-form-element messageText"
               value={post.text}
               onChange={updateState}
-              className="guestbook-form-element"
               id="text"
               aria-label="Message"
               minRows={5}                      

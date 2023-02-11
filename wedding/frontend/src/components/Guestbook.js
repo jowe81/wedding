@@ -14,7 +14,7 @@ const Guestbook = () => {
   const navigate = useNavigate();
 
   const fetchData = () => {
-    fetch("http://192.168.1.183/api/posts")
+    fetch(appData.T_API_SERVER_URL + "posts")
       .then(res => res.json())
       .then(res => setPosts(res));
   }

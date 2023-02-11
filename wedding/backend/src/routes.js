@@ -31,11 +31,14 @@ const fileFilter = (req, file, cb) => {
 const uploadImg = multer({storage, fileFilter}).single('image');
 
 // middleware that is specific to this router
-router.use((req, res, next) => {
+const debugLog = (req, res, next) => {
   console.log('Time: ', new Date().toLocaleString())
   console.log('Data: ', req.params, req.query, req.body, req.file);
-  next()
-})
+  next();
+}
+
+
+//router.use(debugLog);
 
 
 // ************ Posts ***************************************
@@ -59,9 +62,9 @@ router.get('/posts', (req, res) => {
 router.post('/posts', uploadImg, (req, res) => {
   const file = req.file;
   const post = { ...req.body };
-    
   posts
-    .create({ ...req.body, image: file?.filename})  
+    .generateThumb(file)
+    .then(() => posts.create({ ...req.body, image: file?.filename}))    
     .then(post => res.json({ post }))
     .catch(e => {
       res.error('500');
@@ -80,6 +83,8 @@ router.get('/embed-id', (req, res) => {
     .get()
     .then(embedid => res.send(embedid));
 });
+
+// ************ Embed-id *************************************
 
 router.get('/create_tables', async (req, res) => {
   let result = [];
