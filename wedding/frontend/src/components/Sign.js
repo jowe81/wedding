@@ -55,7 +55,7 @@ const UploadImage = (appData) => {
     'Other'
   ];
 
-  const maximumFileSizeMB = 5;
+  const maximumFileSizeMB = 10;
 
   const handleChange = (e) => {
     if (e.target.files[0].size <= maximumFileSizeMB * 1024 * 1024) {

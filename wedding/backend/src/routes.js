@@ -13,14 +13,15 @@ const storage = multer.diskStorage({
     cb(null, '/uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, `${Date.now()}.jpg`);
+    const extension = file.mimetype.split("/")[1];
+    cb(null, `${Date.now()}.${extension}`);
   },
 });
 
 const fileFilter = (req, file, cb) => {
   const extension = file.mimetype.split("/")[1];
 
-  if (['jpg', 'jpeg'].includes(extension.toLowerCase())) {
+  if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension.toLowerCase())) {
     console.log('storing image');
     cb(null, true);
   } else {

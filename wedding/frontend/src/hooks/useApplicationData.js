@@ -17,7 +17,7 @@ export default function useApplicationData(init) {
   const T_CLOSED = 'closed';
 
   // For testing:
-  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][3];
+  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][0];
 
   // const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-10T02:11:00.000+00:00");
   // const T_DATE_SWITCH_TO_DURING =  new Date("2023-02-10T02:11:00.000+00:00");
@@ -112,7 +112,7 @@ export default function useApplicationData(init) {
       
   const isGuestbookOpen = () => {
     const status = getStatus();    
-    return [T_DURING, T_AFTER].includes(status);
+    return [T_PREROLL, T_DURING, T_AFTER].includes(status);
   }
   
   const isAutoplayEnabled = () => {

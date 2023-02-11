@@ -11,17 +11,13 @@ const Guestbook = (appData) => {
   const navigate = useNavigate();
 
   const fetchData = () => {
+    console.log('Fetching posts.');
     fetch(appData.T_API_SERVER_URL + "posts")
       .then(res => res.json())
       .then(res => setPosts(res));
   }
 
   useEffect(fetchData, []);
-
-  useEffect(() => {
-    //Refresh posts periodically
-    setInterval(fetchData, 10000)
-  }, []);
 
   const getPosts = () => {
     return posts.map(post => <Post key = {post.id} post = { post } appData = {appData}/>);
@@ -38,9 +34,9 @@ const Guestbook = (appData) => {
   if (status === appData.T_BEFORE) {
     //Before
     text = not_yet_open;
-  } else if (status === appData.T_DURING) {
+  } else if ([appData.T_PREROLL, appData.T_DURING].includes(status)) {
     //Day of    
-    text =  posts.length ? <div><div className="entry_count">{posts.length} entries</div>{ getPosts() }</div> : empty_guestbook;
+    //text =  posts.length ? <div><div className="entry_count">{posts.length} entries</div>{ getPosts() }</div> : empty_guestbook;
     if (posts.length) {
       text = please_sign;
     } else {
