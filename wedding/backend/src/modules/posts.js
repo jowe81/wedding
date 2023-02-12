@@ -23,7 +23,7 @@ const generateThumb = async (file) => {
   try {
     verifyDirectory(`/uploads/thumbs/`);
 
-    let inputPath = `/uploads/`;
+    let inputPath = `/uploads/fullres/`;
     let outputPath = `/uploads/thumbs/`
     
     const { filename } = file;

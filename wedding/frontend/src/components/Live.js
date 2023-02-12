@@ -23,7 +23,8 @@ const Live = (appData) => {
   }, [embedId]);
 
 
-  const ytEmbed = (embedId) => {    
+  const ytEmbed = (embedId) => {   
+    console.log(`Status ${status}: setting autoplay/mute ${autoplayVal}/${muteVal} `);
     return (
       <div className="video-responsive">
         <iframe

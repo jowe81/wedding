@@ -3,6 +3,8 @@ const router = express.Router();
 const db = require("./db/db");
 const posts = require("./modules/posts");
 const embedids = require("./modules/embedids");
+const helpers = require('./helpers');
+const fs = require('fs').promises;
 
 
 const multer = require('multer');
@@ -10,7 +12,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/uploads');
+    cb(null, '/uploads/fullres');
   },
   filename: function (req, file, cb) {
     const extension = file.mimetype.split("/")[1];
@@ -85,15 +87,24 @@ router.get('/embed-id', (req, res) => {
     .then(embedid => res.send(embedid));
 });
 
-// ************ Embed-id *************************************
+// ************ DB Init **************************************
 
-router.get('/create_tables', async (req, res) => {
-  let result = [];
-  if (req.query.drop !== undefined) {
+router.get('/.db-reinit', async (req, res) => {
+  const now = new Date();
+  const cutoff = new Date("2023-02-18T08:00:00.000+00:00");
+  console.log('DB Init...');
+  console.log('Now:    ' + now.toLocaleString());
+  console.log('Cutoff: ' + cutoff.toLocaleString());
+  if (now.getTime() < cutoff.getTime()) {
+    let result = [];
     result.push(await db.dropTables());    
+    result.push(await db.createTables());
+    result.push(helpers.recreateDirectory('/uploads/fullres')? 'Recreated uploads/fullres.' : 'Error');
+    result.push(helpers.recreateDirectory('/uploads/thumbs') ? 'Recreated uploads/thumbs.' : 'Error');
+    res.send(result.join('\r\n'));  
+  } else {
+    res.send(`Can no longer re-initialize; cutoff date passed.`);
   }
-  result.push(await db.createTables());
-  res.send(result.join('\r\n'));
 });
 
 module.exports = router
