@@ -12,7 +12,8 @@ const HomeBefore = () => {
       <div className="flex">
         <div>
           On our wedding day, the live stream of the ceremony will be displayed right here. 
-          The ceremony will begin at 2pm Vancouver time and the stream will become available around 1:45pm.
+          The ceremony will begin at 2pm Vancouver time and the stream will become available 
+          around 1:40pm and will feature pre-service content.
         </div>
         <div>          
           The guestbook will be open for contributions from February 18th to the end of February 20th.
