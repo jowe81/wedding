@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import constants from "../_constants";
+import constants from "../constants";
 
 
 export default function useApplicationData(init) {
