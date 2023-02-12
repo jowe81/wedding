@@ -14,6 +14,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import SittingOnLog from "./components/SittingOnLog";
 
 function App() {
 
@@ -43,9 +44,8 @@ function App() {
         <Route path="sign" element={ <Sign {...appData}/> } />
 
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
-      </Routes>
-      <div className="overlay"></div>
-      
+      </Routes>      
+      <SittingOnLog />
     </div>    
   );
 }

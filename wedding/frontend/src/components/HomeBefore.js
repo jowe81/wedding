@@ -1,12 +1,13 @@
 import Countdown from "./Countdown";
 import GuestbookIcon from "./GuestbookIcon";
+import February18 from "./February18";
 
 const HomeBefore = () => {
 
   return (
     <div className="home-message padded-text-div">
-      <Countdown />
-      <h4>February 18th, 2:00pm (PST)</h4>
+      <Countdown />      
+      <February18 />
       <br></br>
       <h5>Join us live from anywhere!</h5>
       <div className="flex">
@@ -19,7 +20,7 @@ const HomeBefore = () => {
           The guestbook will be open for contributions from February 18th to the end of February 20th.
           We'd love it if you'd sign it and let us know you followed along!
         </div>
-      </div>
+      </div>      
     </div>
   );
 }

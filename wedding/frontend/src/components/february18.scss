@@ -1,0 +1,11 @@
+.february18 {
+  width:400px;
+  margin: 5px 10px 15px 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .february18 {
+    width:300px;
+    margin-bottom: 15px;
+  }
+}

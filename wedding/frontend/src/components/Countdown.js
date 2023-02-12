@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Badge from 'react-bootstrap/Badge';
+import './countdown.scss';
 
 export default function Countdown() {
 

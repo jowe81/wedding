@@ -1,0 +1,22 @@
+.countdown-container {
+  margin: 10px 0px 15px 0px;  
+}
+
+.countdown-element {  
+  margin: 10px 5px;
+  width: 110px;
+  font-size: 100%;
+  background-color: rgba(222, 145, 119, 0.584) !important;
+}
+
+@media only screen and (max-width: 600px) {
+ 
+  .countdown-element {
+    margin: 0px 2px 10px 2px;
+    font-size: 70%;
+    font-weight: normal;
+    width: 72px;
+    padding: 3px 3px;
+  }
+
+}
