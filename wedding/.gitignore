@@ -1,2 +1,5 @@
 node_modules
 uploads
+
+frontend/compose.yaml
+frontend/src/constants.yaml
