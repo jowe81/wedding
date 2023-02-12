@@ -1,4 +1,3 @@
 node_modules
-uploads
-
-src/constants.yaml
+backend/uploads
+frontend/src/constants.js

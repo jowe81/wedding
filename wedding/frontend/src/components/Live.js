@@ -9,7 +9,6 @@ const Live = (appData) => {
   const muteVal = autoplay ? '1' : '0';
 
   const [n, setN] = useState(0);
-  const [prevStatus, setPrevStatus] = useState(status);
 
   console.log(`Rendering Live Component with embedId ${embedId}. AP/M: ${autoplayVal}/${muteVal}`);
   
@@ -22,18 +21,6 @@ const Live = (appData) => {
       localStorage.setItem('embedId', JSON.stringify(embedId));
     }
   }, [embedId]);
-
-  useEffect(() => {
-    const clear = setInterval(() => {      
-      console.log('Checking for status change. Current: ', prevStatus);
-      const { newStatus } = appData.getData();
-      if (newStatus !== prevStatus) {
-        console.log('New status: ', newStatus);
-        setPrevStatus(newStatus);
-      }
-    }, appData.CHECK_FOR_STATUS_INTERVAL_MS);
-    return () => clearInterval(clear);
-  }, [])
 
 
   const ytEmbed = (embedId) => {    

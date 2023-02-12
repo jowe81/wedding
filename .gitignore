@@ -1,6 +1,5 @@
 compose.yaml
 
-
 # Logs
 logs
 *.log

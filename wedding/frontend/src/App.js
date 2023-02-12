@@ -18,7 +18,21 @@ import '@fontsource/roboto/700.css';
 function App() {
 
   const appData = useApplicationData(true);
+
+  const [prevStatus, setPrevStatus] = useState(appData.getData().status);
     
+  useEffect(() => {
+    console.log('Setting up status checker (app).');
+
+    const clear = setInterval(() => {
+      const newStatus = appData.getData().status
+      console.log('Updating status: ', newStatus);
+      setPrevStatus(newStatus);
+    }, appData.CHECK_FOR_STATUS_INTERVAL_MS);
+
+    return () => clearInterval(clear);
+  }, [])
+
   
   return (
     <div className="App">
