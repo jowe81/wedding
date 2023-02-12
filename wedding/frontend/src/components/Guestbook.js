@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import Post from "./Post";
 import Navigation from "./Navigation";
-import { useNavigate } from "react-router-dom";
 
 const Guestbook = (appData) => {
   const { status, guestbookOpen } = appData.getData();
 
   const [posts, setPosts] = useState([]);
-  const [timeoutHandler, setTimeoutHandler] = useState();
-  const navigate = useNavigate();
 
   const fetchData = () => {
     console.log('Fetching posts.');

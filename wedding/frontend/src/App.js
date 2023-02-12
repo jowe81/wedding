@@ -26,18 +26,21 @@ function App() {
     console.log('Setting up status checker (app).');
 
     const clear = setInterval(() => {
+      if (true === prevStatus) {
+        //Use the variable to avoid compiler complaints.
+      }
       const newStatus = appData.getData().status
-      console.log('Updating status: ', newStatus);
+      console.log(`Updating status: `, newStatus);
       setPrevStatus(newStatus);
     }, appData.CHECK_FOR_STATUS_INTERVAL_MS);
 
     return () => clearInterval(clear);
-  }, [])
+  }, [appData.getData().status])
 
   
   return (
     <div className="App">
-      <img className="header_image" src={HeaderImage}/>
+      <img className="header_image" alt="header" src={HeaderImage}/>
       <Routes>
         <Route path="/" element={ <Home {...appData}/> } />
         <Route path="guestbook" element={ <Guestbook {...appData}/> } />
@@ -45,7 +48,7 @@ function App() {
 
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
       </Routes>      
-      <SittingOnLog />
+      { appData.getData().status === appData.T_BEFORE && <SittingOnLog /> }
     </div>    
   );
 }

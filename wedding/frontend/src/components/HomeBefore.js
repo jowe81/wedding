@@ -1,5 +1,4 @@
 import Countdown from "./Countdown";
-import GuestbookIcon from "./GuestbookIcon";
 import February18 from "./February18";
 
 const HomeBefore = () => {
