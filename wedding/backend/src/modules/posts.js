@@ -21,10 +21,10 @@ const create = async (data) => {
 
 const generateThumb = async (file) => {
   try {
-    verifyDirectory(`/uploads/thumbs/`);
+    verifyDirectory(`/uploads/gb/thumbs/`);
 
-    let inputPath = `/uploads/fullres/`;
-    let outputPath = `/uploads/thumbs/`
+    let inputPath = `/uploads/gb/fullres/`;
+    let outputPath = `/uploads/gb/thumbs/`
     
     const { filename } = file;
     

@@ -26,7 +26,7 @@ const cors = require("cors");
 app.use(morgan("common"));
 app.use(express.json()); 
 app.use(express.static('/uploads'));
-app.use('/images', express.static('/uploads/thumbs'));
+app.use('/images', express.static('/uploads/gb/thumbs'));
 
 app.use(helmet());
 app.use(cors());
@@ -34,6 +34,8 @@ app.use(cors());
 app.get("/", async function(req, res, next) {
 
 });
+
+const router = express.Router();
 
 app.get("/healthz", function(req, res) {
   // do app logic here to determine if app is truly healthy

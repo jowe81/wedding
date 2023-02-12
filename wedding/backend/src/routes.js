@@ -6,13 +6,12 @@ const embedids = require("./modules/embedids");
 const helpers = require('./helpers');
 const fs = require('fs').promises;
 
-
 const multer = require('multer');
 
 
-const storage = multer.diskStorage({
+const storageGuestbook = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/uploads/fullres');
+    cb(null, '/uploads/gb/fullres');
   },
   filename: function (req, file, cb) {
     const extension = file.mimetype.split("/")[1];
@@ -20,18 +19,35 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  const extension = file.mimetype.split("/")[1];
 
+const storageDumps = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, req.params.fullPath || '/uploads/dumps');
+  },
+  filename: function (req, file, cb) {
+    const parts = file.originalname.split('.');
+    const basename = parts[0] || 'no-name';    
+    const extension = parts.length ? parts[parts.length - 1] : file.mimetype.split("/")[1];;
+
+    cb(null, `${basename}-${Date.now()}.${extension}`);
+  },
+});
+
+const filterGuestbook = (req, file, cb) => {
+  const extension = file.mimetype.split("/")[1];
   if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension.toLowerCase())) {
-    console.log('storing image');
     cb(null, true);
   } else {
     cb(new Error("Not a jpeg image!"), false);
   }
 };
 
-const uploadImg = multer({storage, fileFilter}).single('image');
+
+// From guestbook
+const uploadImg = multer({storage: storageGuestbook, filterGuestbook}).single('image');
+
+// From upload page
+const uploadPictures = multer({storage: storageDumps}).any();
 
 // middleware that is specific to this router
 const debugLog = (req, res, next) => {
@@ -41,8 +57,7 @@ const debugLog = (req, res, next) => {
 }
 
 
-//router.use(debugLog);
-
+router.use(debugLog);
 
 // ************ Posts ***************************************
 
@@ -87,6 +102,27 @@ router.get('/embed-id', (req, res) => {
     .then(embedid => res.send(embedid));
 });
 
+// ************ Pictures *************************************
+
+const createUploadDir = (req, res, next) => {
+  const name = req.params.name || '__anonymous';
+  const dirName = name.replace(/[^a-zA-Z0-9]/g, '').substr(0,20);
+  const fullPath = '/uploads/dumps/' + dirName;
+  req.params.fullPath = fullPath;
+  helpers.verifyDirectory(fullPath);
+  console.log('Create Upload Dir', fullPath);
+  next();
+}
+
+router.post('/upload-pictures/:name', createUploadDir, uploadPictures, (req, res) => {
+  const file = req.file;
+  const post = { ...req.body };
+  console.log(file);
+  res.send(200);
+});
+
+
+
 // ************ DB Init **************************************
 
 router.get('/.db-reinit', async (req, res) => {
@@ -99,9 +135,10 @@ router.get('/.db-reinit', async (req, res) => {
     let result = [];
     result.push(await db.dropTables());    
     result.push(await db.createTables());
-    result.push(helpers.recreateDirectory('/uploads/fullres')? 'Recreated uploads/fullres.' : 'Error');
-    result.push(helpers.recreateDirectory('/uploads/thumbs') ? 'Recreated uploads/thumbs.' : 'Error');
-    res.send(result.join('\r\n'));  
+    result.push(helpers.recreateDirectory('/uploads/gb/fullres')? 'Recreated uploads/fullres.' : 'Error');
+    result.push(helpers.recreateDirectory('/uploads/gb/thumbs') ? 'Recreated uploads/thumbs.' : 'Error');
+    result.push(helpers.recreateDirectory('/uploads/dumps') ? 'Recreated uploads/dumbs.' : 'Error');
+    res.json(result);  
   } else {
     res.send(`Can no longer re-initialize; cutoff date passed.`);
   }

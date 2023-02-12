@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router-dom"
 import Home from "./components/Home";
 import Guestbook from "./components/Guestbook";
 import Sign from "./components/Sign";
+import UploadImages from "./components/UploadPictures";
 import UpdateEmbedId from "./components/UpdateEmbedId";
 import HeaderImage from "./img/jlb-jmw.png";
 import '@fontsource/roboto/300.css';
@@ -46,6 +47,7 @@ function App() {
         <Route path="guestbook" element={ <Guestbook {...appData}/> } />
         <Route path="sign" element={ <Sign {...appData}/> } />
 
+        <Route path="upload" element={ <UploadImages {...appData}/> } />
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
       </Routes>      
       { appData.getData().status === appData.T_BEFORE && <SittingOnLog /> }

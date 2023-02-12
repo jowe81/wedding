@@ -9,7 +9,7 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Autocomplete from '@mui/material/Autocomplete';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
-const UploadImage = (appData) => {
+const Sign = (appData) => {
   
   const navigate = useNavigate();
 
@@ -219,4 +219,4 @@ const UploadImage = (appData) => {
   );
 };
 
-export default UploadImage;
+export default Sign;
