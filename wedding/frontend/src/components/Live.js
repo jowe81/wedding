@@ -9,6 +9,8 @@ const Live = (appData) => {
   const muteVal = autoplay ? '1' : '0';
 
   const [n, setN] = useState(0);
+  const [prevStatus, setPrevStatus] = useState(status);
+
   console.log(`Rendering Live Component with embedId ${embedId}. AP/M: ${autoplayVal}/${muteVal}`);
   
   //Force the iframe to rerender when the embedid changes
@@ -24,7 +26,10 @@ const Live = (appData) => {
   useEffect(() => {
     const clear = setInterval(() => {
       console.log('Checking for status change...');
-      setN(Math.floor(Math.random() * 1000000));
+      if (status !== prevStatus) {
+        console.log('Status now: ', status);
+        setPrevStatus(status);
+      }
     }, appData.CHECK_FOR_STATUS_INTERVAL_MS);
     return () => clearInterval(clear);
   }, [])
