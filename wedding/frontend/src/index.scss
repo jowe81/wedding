@@ -19,6 +19,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.flex {
+  display: flex;  
+
+  div {
+    text-align: justify;
+    margin: 15px;
+  }
+
+}
+
+
 .overlay {
   background-color: rgb(0,0,0,0.5);
   position:absolute;
@@ -85,6 +96,26 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+  body {
+    font-size: 80%;
+  }
+
+  .flex {
+    flex-direction: column;
+  }
+
+  .home-message {
+    max-width: none !important;
+  }
+
+  .live-embed {
+    margin: 20px 10px 0px 10px;
+  }
+
+  .padded-text-div {
+    padding: 2px;
+  }
+
   .header_image {
     width:300px;
   }
@@ -250,7 +281,7 @@ body {
 }
 
 .home-message {
-  max-width: 600px;
+  max-width: 80%;
   margin-left: auto;
   margin-right: auto; 
 }

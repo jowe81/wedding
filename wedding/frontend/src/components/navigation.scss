@@ -1,0 +1,34 @@
+.navigation-container {
+
+  .live-icon {
+    height:15px;
+    padding:0px;
+    margin: 0px 0px 2px 5px;
+  }
+  
+  a:link, a:visited, a:hover {
+    color: rgb(222, 144, 119);
+  
+  }
+  
+  a:visited {
+  }
+  
+  a:hover {
+  
+  }
+  
+  a:active {
+    color: rgb(255, 225, 215);
+
+  }
+  
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .navigation-container {
+    /*font-size: 80%;*/
+  }
+}
