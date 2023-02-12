@@ -6,11 +6,18 @@ import constants from "../_constants";
 
 export default function useApplicationData(init) {
   
-  const T_API_SERVER_ROOT = constants.T_API_SERVER_ROOT;
+  const {
+    T_API_SERVER_ROOT,
+    T_DEFAULT_EMBED_ID,
+
+    T_DATE_SWITCH_TO_PREROLL,
+    T_DATE_SWITCH_TO_DURING,
+    T_DATE_SWITCH_TO_AFTER,
+    T_DATE_SWITCH_TO_CLOSED,
+  } = constants;
+
   const T_API_SERVER_URL = `${T_API_SERVER_ROOT}api/`;
   const T_API_SERVER_IMAGES = `${T_API_SERVER_ROOT}images/`;
-
-  const T_DEFAULT_EMBED_ID = constants.T_DEFAULT_EMBED_ID; //default
 
   const T_BEFORE = 'before';
   const T_PREROLL = 'preroll';
@@ -20,18 +27,6 @@ export default function useApplicationData(init) {
 
   // For testing:
   const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][2];
-
-  // const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-10T02:11:00.000+00:00");
-  // const T_DATE_SWITCH_TO_DURING =  new Date("2023-02-10T02:11:00.000+00:00");
-  // const T_DATE_SWITCH_TO_AFTER  =  new Date("2023-02-10T02:13:00.000+00:00");
-  // const T_DATE_SWITCH_TO_CLOSED =  new Date("2023-02-10T02:14:00.000+00:00");    
-  
-
-  //Actuals:
-  const T_DATE_SWITCH_TO_PREROLL = new Date("2023-02-18T21:30:00.000+00:00");
-  const T_DATE_SWITCH_TO_DURING  = new Date("2023-02-18T21:55:00.000+00:00");
-  const T_DATE_SWITCH_TO_AFTER   = new Date("2023-02-18T23:45:00.000+00:00");
-  const T_DATE_SWITCH_TO_CLOSED  = new Date("2023-02-20T08:00:00.000+00:00");
   
   const displaySchedule = () => {
     console.log('App is starting...');
