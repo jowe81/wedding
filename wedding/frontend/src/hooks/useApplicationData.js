@@ -14,6 +14,9 @@ export default function useApplicationData(init) {
     T_DATE_SWITCH_TO_DURING,
     T_DATE_SWITCH_TO_AFTER,
     T_DATE_SWITCH_TO_CLOSED,
+
+    CHECK_FOR_STATUS_INTERVAL_MS,
+    QUERY_EMBED_ID_INTERVAL_MS,
   } = constants;
 
   const T_API_SERVER_URL = `${T_API_SERVER_ROOT}api/`;
@@ -26,7 +29,7 @@ export default function useApplicationData(init) {
   const T_CLOSED = 'closed';
 
   // For testing:
-  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][2];
+  const statusOverride = [null, T_BEFORE, T_PREROLL, T_DURING, T_AFTER, T_CLOSED][0];
   
   const displaySchedule = () => {
     console.log('App is starting...');
@@ -34,6 +37,8 @@ export default function useApplicationData(init) {
     console.log('Switching to during:  ', T_DATE_SWITCH_TO_DURING.toLocaleString());
     console.log('Switching to after:   ', T_DATE_SWITCH_TO_AFTER.toLocaleString());
     console.log('Switching to closed:  ', T_DATE_SWITCH_TO_CLOSED.toLocaleString());  
+    console.log('Status-Check interval (ms):  ', CHECK_FOR_STATUS_INTERVAL_MS);
+    console.log('Query EmbedId interval (ms): ', QUERY_EMBED_ID_INTERVAL_MS);
   }
   
   const [embedId, setEmbedId] = useState(T_DEFAULT_EMBED_ID);
@@ -64,7 +69,7 @@ export default function useApplicationData(init) {
       retrieveEmbedId();
 
       //Set a timer to check periodically
-      const clear = setInterval(retrieveEmbedId, 60000); //Once a minute
+      const clear = setInterval(retrieveEmbedId, QUERY_EMBED_ID_INTERVAL_MS);
       return () => { clearInterval(clear)};  
     }
   }, []);
@@ -131,6 +136,9 @@ export default function useApplicationData(init) {
 
     T_API_SERVER_URL,
     T_API_SERVER_IMAGES,
+
+    CHECK_FOR_STATUS_INTERVAL_MS,    
+    QUERY_EMBED_ID_INTERVAL_MS,
   }
   
 }

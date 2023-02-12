@@ -21,6 +21,13 @@ const Live = (appData) => {
     }
   }, [embedId]);
 
+  useEffect(() => {
+    const clear = setInterval(() => {
+      setN(Math.floor(Math.random() * 1000000));
+    }, appData.CHECK_FOR_STATUS_INTERVAL_MS);
+    return () => clearInterval(clear);
+  }, [])
+
 
   const ytEmbed = (embedId) => {    
     return (
