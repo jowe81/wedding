@@ -79,9 +79,9 @@ const UploadPictures = (appData) => {
             />
           </div>
           <div>
-          <div className="fieldLabel">Your Pictures</div>
+          <div className="fieldLabel">Your Media Files</div>
             <div className='dropzone-container'>            
-              {!post.name && <div className='enter-name'>Please enter your name to enable the drop zone.<br></br>Just select or drop files to upload them.</div>}
+              {!post.name && <div className='enter-name'>Please enter your name to enable the drop zone.<br></br>Select or drag and drop files to upload them.</div>}
               <Dropzone
                 disabled={post.name ? false : true}
                 getUploadParams={getUploadParams}
