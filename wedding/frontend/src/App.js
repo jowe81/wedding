@@ -42,7 +42,7 @@ function App() {
   }, [appData.getData().status])
 
   const picsRoutes = ["pictures", "pics", "upload", "uploads"];
-
+  const locationNoSlash = location.pathname.substring(1);
 
 
   return (
@@ -57,7 +57,7 @@ function App() {
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
         <Route path="*" element={<Navigate to="/" replace/>}/>
       </Routes>      
-      { (appData.getData().status === appData.T_BEFORE) && (!picsRoutes.includes(location.pathname.substring(0,1))) && <SittingOnLog /> }
+      { (appData.getData().status === appData.T_BEFORE) && (!picsRoutes.includes(locationNoSlash)) && <SittingOnLog /> }
     </div>    
   );
 }
