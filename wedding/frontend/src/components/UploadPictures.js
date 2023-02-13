@@ -14,6 +14,7 @@ const UploadPictures = (appData) => {
   const navigate = useNavigate();
 
   const [filesUploaded, setFilesUploaded] = useState([]);
+  const [filesFailed, setFilesFailed] = useState([]);
 
   const [post, setPost] = useState({
     name: '',
@@ -36,14 +37,31 @@ const UploadPictures = (appData) => {
   
   // called every time a file's `status` changes
   const handleChangeStatus = ({ file }, status, allFiles) => { 
-    console.log(status);
-    if (status === 'done') {
+
+    const removeFile = (allFiles, file) => {
       allFiles.forEach(f => { 
         if (f.file.name === file.name ) {
           setFilesUploaded([...filesUploaded, f.file]);
           f.remove();
         }
-      });      
+      });
+    }
+
+    console.log(status);
+    if (status === 'done') {
+      removeFile(allFiles, file);
+    } else if ([
+        'rejected_file_type', 
+        'rejected_max_files', 
+        'error_file_size', 
+        'error_validation', 
+        'error_upload_params', 
+        'exception_upload', 
+        'aborted', 
+        'error_upload'
+      ].includes(status)) {
+        removeFile(allFiles, file);
+        setFilesFailed([...filesFailed, file]);
     }
   }
   
@@ -92,10 +110,18 @@ const UploadPictures = (appData) => {
                 inputContent="Drop files here or tap to browse."
               />            
             </div>
-            {filesUploaded.length > 0 && <div>Successfully uploaded {filesUploaded.length} file{filesUploaded.length !== 1 && <span>s</span>}. You can add more!</div>}
           </div>
+          {filesFailed.length > 0 && 
+            <div>Unfortunately {filesFailed.length} file{filesFailed.length !== 1 && <span>s</span>} failed to upload. You can try again:</div>
+          }
+          <div className='filesFailed'>
+            { filesFailed.map((file) => <div key={file.name}>{file.name} ERROR</div>)}
+          </div>
+          {filesUploaded.length > 0 && 
+            <div>Successfully uploaded {filesUploaded.length} file{filesUploaded.length !== 1 && <span>s</span>}. You can add more!</div>
+          }
           <div className='filesCompleted'>
-            { filesUploaded.map((file) => <div>{file.name} ~{(file.size / 1024 / 1024).toFixed(1)} MB</div>)}
+            { filesUploaded.map((file) => <div key={file.name}>{file.name} ~{(file.size / 1024 / 1024).toFixed(1)} MB</div>)}
           </div>
           {post.name && (filesUploaded.length > 0) &&
             <div className='footer'>
