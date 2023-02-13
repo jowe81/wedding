@@ -60,7 +60,7 @@ const UploadPictures = (appData) => {
         <h1 className="top-header">Send Us Your Pictures</h1>
         <Navigation {...appData}/>                
         <div className='home-message'>
-          {post.name && <span><span>{post.name}</span>, thank </span>}
+          {post.name && <span><span className='uploader-name'>{post.name}</span>, thank </span>}
           {!post.name && <span>Thank </span>}
           you so much for taking pictures<br/>and videos and for sharing them with us!
         </div>
@@ -97,9 +97,11 @@ const UploadPictures = (appData) => {
           <div className='filesCompleted'>
             { filesUploaded.map((file) => <div>{file.name} ~{(file.size / 1024 / 1024).toFixed(1)} MB</div>)}
           </div>
-          <div className='footer'>
-            Thank you so much, {post.name}!
-          </div>
+          {post.name && (filesUploaded.length > 0) &&
+            <div className='footer'>
+              Thank you so much, <span className='uploader-name'>{post.name}</span>!
+            </div>
+          }
         </div>                      
       </div>
     </>
