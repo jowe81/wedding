@@ -26,7 +26,6 @@ const UploadPictures = (appData) => {
 
   const maximumFileSizeMB = 10;
   
-  // specify upload params and url for your files
   const getUploadParams = ({ file, meta }) => { 
     console.log('Meta: ', meta, 'File: ', file);
     return { 
@@ -35,7 +34,6 @@ const UploadPictures = (appData) => {
     };
   }
   
-  // called every time a file's `status` changes
   const handleChangeStatus = ({ file }, status, allFiles) => { 
 
     const removeFile = (allFiles, file) => {
@@ -47,7 +45,6 @@ const UploadPictures = (appData) => {
       });
     }
 
-    console.log(status);
     if (status === 'done') {
       removeFile(allFiles, file);
     } else if ([

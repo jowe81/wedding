@@ -209,7 +209,7 @@ const Sign = (appData) => {
               </div>}
             </div>
             { requiredFieldsMissing && getRequiredFieldsMissing()}
-            <Button onClick={postNewEntry} variant="contained">
+            <Button className='submit-button' onClick={postNewEntry} variant="contained">
               {loading ? 'Posting...' : 'Submit Your Entry'}
             </Button>            
           </div>        

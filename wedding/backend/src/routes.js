@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require("./db/db");
 const posts = require("./modules/posts");
 const embedids = require("./modules/embedids");
+const viewerStats = require("./modules/viewerstats");
 const helpers = require('./helpers');
 const fs = require('fs').promises;
 
@@ -52,12 +53,12 @@ const uploadPictures = multer({storage: storageDumps}).any();
 // middleware that is specific to this router
 const debugLog = (req, res, next) => {
   console.log('Time: ', new Date().toLocaleString())
-  console.log('Data: ', req.params, req.query, req.body, req.file);
+  console.log('Data: ', req.url, req.params, req.query, req.body, req.file);
   next();
 }
 
 
-router.use(debugLog);
+//router.use(debugLog);
 
 // ************ Posts ***************************************
 
@@ -90,6 +91,7 @@ router.post('/posts', uploadImg, (req, res) => {
 });
 
 // ************ Embed-id *************************************
+
 router.post('/embed-id', (req, res) => {
   embedids
     .create(req.body)
@@ -100,6 +102,82 @@ router.get('/embed-id', (req, res) => {
   embedids
     .get()
     .then(embedid => res.send(embedid));
+});
+
+// ************ Viewer-stats *********************************
+
+router.post('/viewer-id', (req, res) => {
+  viewerStats
+    .pushId(req)
+    .then(() => res.end('OK'))
+    .catch(err => {
+      console.log('Error while storing viewerId.');
+    })
+});
+
+router.get('/viewer-stats/by/:selector/:data', (req, res) => {
+
+  switch (req.params.selector) {
+    case 'id':
+      return viewerStats
+        .getByViewerId(req.params.data)
+        .then(data => {
+          res.json(data);
+        })
+        .catch(err => {
+          res.status(500).end();
+        });
+      break;
+
+    case 'ip':
+      return viewerStats
+        .getByClientIp(req.params.data)
+        .then(data => {
+          res.json(data);
+        })
+        .catch(err => {
+          res.status(500).end();
+        });
+      break;
+
+    case 'unique':
+      if (req.params.data === 'ip') {
+        return viewerStats
+          .getUniqueIps()
+          .then(data => res.json(data))
+          .catch(err => res.status(500).end());
+      } else if (req.params.data === 'id') {
+        return viewerStats
+          .getUniqueIds()
+          .then(data => res.json(data))
+          .catch(err => res.status(500).end());
+      }
+  }
+  
+  res.status(500).send(`Unable to retrieve data: ${req.params.selector}/${req.params.data}`);
+});
+
+router.get('/viewer-stats/all', async (req, res) => {
+  try {
+    let date;
+
+    if (req.query.date === 'today'){
+      date = new Date();
+    } else if (req.query.date > 0) {
+      //Timestamp
+      date = new Date(req.query.date);
+    }
+
+    const data = {
+      uniqueIds: await viewerStats.getUnique('viewerId', date),
+      uniqueIps: await viewerStats.getUnique('clientIp', date),
+      allVisits: await viewerStats.getAll(date),
+    }
+    res.json(data);
+  
+  } catch (err) {
+    res.status(500).json(err);
+  }  
 });
 
 // ************ Pictures *************************************

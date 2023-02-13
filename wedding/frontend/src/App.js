@@ -10,7 +10,10 @@ import Guestbook from "./components/Guestbook";
 import Sign from "./components/Sign";
 import UploadImages from "./components/UploadPictures";
 import UpdateEmbedId from "./components/UpdateEmbedId";
+import Stats from "./components/Stats";
+
 import HeaderImage from "./img/jlb-jmw.png";
+
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -27,7 +30,7 @@ function App() {
   const [prevStatus, setPrevStatus] = useState(appData.getData().status);
     
   useEffect(() => {
-    console.log('Setting up status checker (app).');
+    console.log('Setting up status checker.');
 
     const clear = setInterval(() => {
       if (true === prevStatus) {
@@ -54,7 +57,9 @@ function App() {
         <Route path="sign" element={ <Sign {...appData}/> } />
         {picsRoutes.map(path => <Route key={path} path={path} element={ <UploadImages {...appData}/> } />)}
         
+        <Route path="stats" element={ <Stats {...appData}/> } />
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
+
         <Route path="*" element={<Navigate to="/" replace/>}/>
       </Routes>      
       { (appData.getData().status === appData.T_BEFORE) && (!picsRoutes.includes(locationNoSlash)) && <SittingOnLog /> }

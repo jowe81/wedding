@@ -58,11 +58,38 @@ export default function useApplicationData(init) {
       .catch(err => console.warn(err));
   };
 
+  const pushViewerId = () => {    
+    const viewerId = getViewerId();
+
+    return axios
+      .post(T_API_SERVER_URL + "viewer-id", { viewerId })
+      .catch(err => console.log('Got an error when pushing viewer id to server.'));
+  }
+
+  const getViewerId = () => {
+    let myId;
+
+    const key = 'visitedJessAndJohannes';
+    const stored = JSON.parse(localStorage.getItem(key));
+    
+    if (stored) {
+      myId = stored.myId;
+      console.log('Using existing viewer Id: ' + myId);
+    } else {
+      const n = Math.round(Math.random() * 1000000);
+      myId = 'V_' + Date.now() + '_' + n;
+      console.log('Generated viewer Id: ' + myId);
+      localStorage.setItem(key, JSON.stringify({ myId }));    
+    }
+    return myId;
+  }
 
   
   //Initialization
   useEffect(() => {
-    if (init) {
+    if (init) {      
+      pushViewerId();
+
       displaySchedule();
 
       //Retrieve embed ID instantly on load

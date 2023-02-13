@@ -33,9 +33,25 @@ const log = (msg) => {
   return msg;
 }
 
+//Return first and last timestamp for the day the date falls in
+const getDateBoundaries = (date) => {
+  const s = date.toDateString();
+
+  const beginning = new Date(s);
+  const end = beginning.getTime() + (1000 * 60 * 60 * 24) - 1;
+  
+  const boundaries = {
+    start: beginning.getTime(),
+    end: end,
+  }    
+  
+  return boundaries;
+}
+
 
 module.exports = {
   verifyDirectory,
   recreateDirectory,
   log,
+  getDateBoundaries,
 }
