@@ -70,6 +70,8 @@
 
     .dzu-dropzone {
       height: 250px;
+      border : 0;
+      overflow: auto;
     }
 
     .dzu-submitButton {
@@ -81,6 +83,10 @@
       font-weight: normal;
     }
 
+  }
+
+  .footer {
+    margin: 20px;
   }
   
 

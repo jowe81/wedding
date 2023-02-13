@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom'
 
 import useApplicationData from "./hooks/useApplicationData";
 
 import "./App.scss";
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import Home from "./components/Home";
 import Guestbook from "./components/Guestbook";
 import Sign from "./components/Sign";
@@ -18,6 +19,8 @@ import '@fontsource/roboto/700.css';
 import SittingOnLog from "./components/SittingOnLog";
 
 function App() {
+
+  const location = useLocation();
 
   const appData = useApplicationData(true);
 
@@ -38,7 +41,10 @@ function App() {
     return () => clearInterval(clear);
   }, [appData.getData().status])
 
-  
+  const picsRoutes = ["pictures", "pics", "upload", "uploads"];
+
+
+
   return (
     <div className="App">
       <img className="header_image" alt="header" src={HeaderImage}/>
@@ -46,11 +52,12 @@ function App() {
         <Route path="/" element={ <Home {...appData}/> } />
         <Route path="guestbook" element={ <Guestbook {...appData}/> } />
         <Route path="sign" element={ <Sign {...appData}/> } />
-
-        <Route path="pictures" element={ <UploadImages {...appData}/> } />
+        {picsRoutes.map(path => <Route path={path} element={ <UploadImages {...appData}/> } />)}
+        
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
+        <Route path="*" element={<Navigate to="/" replace/>}/>
       </Routes>      
-      { appData.getData().status === appData.T_BEFORE && <SittingOnLog /> }
+      { (appData.getData().status === appData.T_BEFORE) && (picsRoutes.includes(location.pathname)) && <SittingOnLog /> }
     </div>    
   );
 }

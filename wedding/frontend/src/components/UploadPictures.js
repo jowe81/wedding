@@ -97,6 +97,9 @@ const UploadPictures = (appData) => {
           <div className='filesCompleted'>
             { filesUploaded.map((file) => <div>{file.name} ~{(file.size / 1024 / 1024).toFixed(1)} MB</div>)}
           </div>
+          <div className='footer'>
+            Thank you so much, {post.name}!
+          </div>
         </div>                      
       </div>
     </>
