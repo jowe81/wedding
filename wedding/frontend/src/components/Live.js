@@ -51,7 +51,7 @@ const Live = (appData) => {
 
       { (status === appData.T_PREROLL) && <Countdown />}
 
-      <div className="home-message padded-text-div">
+      <div className="">
         <LiveCreds/>
       </div>
     </>

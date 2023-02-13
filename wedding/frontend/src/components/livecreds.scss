@@ -1,8 +1,36 @@
 
 .livecreds-container {
-  .flex {
+
+    display: flex;
+    border-top: 1px solid gray;
+    margin-top: 30px;
+    padding-top:10px;
+    flex-direction: row;
+    align-items: flex-start;
+    
+
     div {
       text-align: center;
+      width: 100%;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+
+  .livecreds-container {
+
+    flex-direction: column;    
+    margin-top: 15px;
+
+    div {
+      padding:10px;
+      text-align: center;
+      font-size: small;
+      line-height: 1.2;
     }
   }
+
 }

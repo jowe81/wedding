@@ -47,7 +47,7 @@ function App() {
         <Route path="guestbook" element={ <Guestbook {...appData}/> } />
         <Route path="sign" element={ <Sign {...appData}/> } />
 
-        <Route path="upload" element={ <UploadImages {...appData}/> } />
+        <Route path="pictures" element={ <UploadImages {...appData}/> } />
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
       </Routes>      
       { appData.getData().status === appData.T_BEFORE && <SittingOnLog /> }
