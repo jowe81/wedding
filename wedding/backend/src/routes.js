@@ -4,6 +4,7 @@ const db = require("./db/db");
 const posts = require("./modules/posts");
 const embedids = require("./modules/embedids");
 const viewerStats = require("./modules/viewerstats");
+const files = require('./modules/files');
 const helpers = require('./helpers');
 const fs = require('fs').promises;
 
@@ -25,12 +26,19 @@ const storageDumps = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, req.params.fullPath || '/uploads/dumps');
   },
-  filename: function (req, file, cb) {
+  filename: async function (req, file, cb) {
     const parts = file.originalname.split('.');
     const basename = parts[0] || 'no-name';    
-    const extension = parts.length ? parts[parts.length - 1] : file.mimetype.split("/")[1];;
-
-    cb(null, `${basename}-${Date.now()}.${extension}`);
+    const extension = parts.length ? parts[parts.length - 1] : file.mimetype.split("/")[1];
+    const name = `${basename}-${Date.now()}.${extension}`;
+    await files.add({
+      uploaderName: req.params.name,
+      originalName: file.originalname,
+      extension: extension,
+      type: file.mimetype.split("/")[0],  
+      name,   
+    })
+    cb(null, name);
   },
 });
 
@@ -167,11 +175,15 @@ router.get('/viewer-stats/all', async (req, res) => {
       //Timestamp
       date = new Date(req.query.date);
     }
-
+    
     const data = {
       uniqueIds: await viewerStats.getUnique('viewerId', date),
       uniqueIps: await viewerStats.getUnique('clientIp', date),
       allVisits: await viewerStats.getAll(date),
+      contributors: await files.getUnique('uploaderName', date),
+      images: await files.getAll(date, { column: 'type', value: 'image' }),
+      videos: await files.getAll(date, { column: 'type', value: 'video' }),      
+      allFiles: await files.getAll(date, {}),
     }
     res.json(data);
   
@@ -215,7 +227,7 @@ router.get('/.db-reinit', async (req, res) => {
     result.push(await db.createTables());
     result.push(helpers.recreateDirectory('/uploads/gb/fullres')? 'Recreated uploads/fullres.' : 'Error');
     result.push(helpers.recreateDirectory('/uploads/gb/thumbs') ? 'Recreated uploads/thumbs.' : 'Error');
-    result.push(helpers.recreateDirectory('/uploads/dumps') ? 'Recreated uploads/dumbs.' : 'Error');
+    result.push(helpers.recreateDirectory('/uploads/dumps') ? 'Recreated uploads/dumps.' : 'Error');
     res.json(result);  
   } else {
     res.send(`Can no longer re-initialize; cutoff date passed.`);

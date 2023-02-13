@@ -30,6 +30,17 @@ const getYesterday = (date) => {
   return yesterday12am;
 }
 
+
+const getSectionContent = data => {
+  return (
+    <section className="data">
+      <div>Visits (total, IDs, IPs): {data.allVisits.length}, {data.uniqueIds.length}, {data.uniqueIds.length}</div>      
+      <div>Contributors: {data.contributors.length}</div>
+      <div>Files (all, images, videos): {data.allFiles.length}, {data.images.length}, {data.videos.length}</div>
+    </section>
+  );
+}
+
 const Home = (appData) => {
   const {status, embedId} = appData.getData();
 
@@ -62,24 +73,11 @@ const Home = (appData) => {
     content = 
       <div>
         <div className="section-header">Today:</div>
-        <section className="data">
-          <div>{stats.today.uniqueIds.length} visits from unique IDs.</div>
-          <div>{stats.today.uniqueIds.length} visits from unique IPs.</div>
-          <div>{stats.today.allVisits.length} visits total.</div>
-        </section>
+        { getSectionContent(stats.today) }
         <div className="section-header">Yesterday:</div>
-        <section className="data">
-          <div>{stats.yesterday.uniqueIds.length} visits from unique IDs.</div>
-          <div>{stats.yesterday.uniqueIds.length} visits from unique IPs.</div>
-          <div>{stats.yesterday.allVisits.length} visits total.</div>
-        </section>
+        { getSectionContent(stats.yesterday) }
         <div className="section-header">All Time:</div>
-        <section className="data">
-          <div>{stats.allTime.uniqueIds.length} visits from unique IDs.</div>
-          <div>{stats.allTime.uniqueIds.length} visits from unique IPs.</div>
-          <div>{stats.allTime.allVisits.length} visits total.</div>
-        </section>
-        <div></div>
+        { getSectionContent(stats.allTime) }
       </div>
   }
 

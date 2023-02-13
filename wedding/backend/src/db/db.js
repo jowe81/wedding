@@ -42,9 +42,21 @@ createTables = async () => {
           .defaultTo(db.fn.now());
       });    
 
+      await db.schema
+      .createTable('files', table => {
+        table.increments('id');
+        table.string('uploaderName');
+        table.string('originalName');
+        table.string('extension');
+        table.string('type');
+        table.string('name');
+        table.timestamp('created_at')
+          .defaultTo(db.fn.now());
+      });    
+
       
 
-    return log('Created tables posts, viewerStats, embedid; inserted default id.');
+    return log('Created tables posts, viewerStats, files, embedid; inserted default id.');
   } catch(e) {
     console.log(e);
     return log(e.sqlMessage);
@@ -60,7 +72,8 @@ dropTables = async () => {
     await db.schema.dropTable('posts');
     await db.schema.dropTable('embedids');
     await db.schema.dropTable('viewerStats');
-    return log('Dropped tables post, embedids, viewerStats.');
+    await db.schema.dropTable('files');
+    return log('Dropped tables post, embedids, viewerStats, files.');
   } catch (e) {
     return log(e.sqlMessage);
   }
