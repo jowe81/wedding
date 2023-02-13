@@ -52,12 +52,12 @@ function App() {
         <Route path="/" element={ <Home {...appData}/> } />
         <Route path="guestbook" element={ <Guestbook {...appData}/> } />
         <Route path="sign" element={ <Sign {...appData}/> } />
-        {picsRoutes.map(path => <Route path={path} element={ <UploadImages {...appData}/> } />)}
+        {picsRoutes.map(path => <Route key={path} path={path} element={ <UploadImages {...appData}/> } />)}
         
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
         <Route path="*" element={<Navigate to="/" replace/>}/>
       </Routes>      
-      { (appData.getData().status === appData.T_BEFORE) && (picsRoutes.includes(location.pathname)) && <SittingOnLog /> }
+      { (appData.getData().status === appData.T_BEFORE) && (picsRoutes.includes(location.pathname.substring(0,1))) && <SittingOnLog /> }
     </div>    
   );
 }
