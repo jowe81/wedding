@@ -13,10 +13,10 @@ export default function Countdown() {
   }, []);
 
   const update = () => {
-    const timezone_offset_min = new Date().getTimezoneOffset();
-    const timezone_offset_ms = timezone_offset_min * 60 * 1000;
+    //const timezone_offset_min = new Date().getTimezoneOffset();
+    //const timezone_offset_ms = timezone_offset_min * 60 * 1000;
     const now = new Date().getTime();
-    const target = new Date("2023-02-18 06:00").getTime() + timezone_offset_ms;
+    const target = new Date("2023-02-18T22:00:00.000+00:00").getTime();// + timezone_offset_ms;
     const ms = target - now;
     setMs(ms);
   }
@@ -32,19 +32,24 @@ export default function Countdown() {
   const dMinutes = (minutes - hours * 60);
   const dSeconds = (seconds - minutes * 60);
 
+  const showDays = days > 0;
+  const showHours = hours > 0;
+  const showMinutes = minutes > 0;
+  const showSeconds = seconds > 0;
+
   const getWord = (n, t) => {
     return n !== 1 ? `${t}s` : t;
   }
 
 
-  return (
+  return seconds > 0 ? (
     <div className="aligner">
       <div className="countdown-container">
-        <Badge className="countdown-element" bg="primary">{dDays} {getWord(dDays, "day")}</Badge>
-        <Badge className="countdown-element" bg="primary">{dHours} {getWord(dHours, "hour")}</Badge>
-        <Badge className="countdown-element" bg="primary">{dMinutes} {getWord(dMinutes, "minute")}</Badge>
-        <Badge className="countdown-element" bg="primary">{dSeconds} {getWord(dSeconds, "second")}</Badge>
+        { showDays && <Badge className="countdown-element" bg="primary">{dDays} {getWord(dDays, "day")}</Badge>}
+        { showHours && <Badge className="countdown-element" bg="primary">{dHours} {getWord(dHours, "hour")}</Badge>}
+        { showMinutes && <Badge className="countdown-element" bg="primary">{dMinutes} {getWord(dMinutes, "minute")}</Badge>}
+        { showSeconds && <Badge className="countdown-element" bg="primary">{dSeconds} {getWord(dSeconds, "second")}</Badge>}
       </div>
     </div>
-  );
+  ) : '';
 }
