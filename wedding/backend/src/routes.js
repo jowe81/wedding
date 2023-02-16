@@ -98,6 +98,16 @@ router.post('/posts', uploadImg, (req, res) => {
     });
 });
 
+// ************ Time *****************************************
+
+router.get('/time', (req, res) => {
+  const now = new Date();
+  res.json({ 
+    serverDateStr: now.toString(),
+    serverTimestamp: now.getTime()
+  });
+});
+
 // ************ Embed-id *************************************
 
 router.post('/embed-id', (req, res) => {

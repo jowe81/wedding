@@ -15,6 +15,8 @@ export default function useApplicationData(init) {
     T_DATE_SWITCH_TO_AFTER,
     T_DATE_SWITCH_TO_CLOSED,
 
+    T_MAX_OFFSET_MINUTES,
+
     CHECK_FOR_STATUS_INTERVAL_MS,
     QUERY_EMBED_ID_INTERVAL_MS,
   } = constants;
@@ -42,6 +44,7 @@ export default function useApplicationData(init) {
   }
   
   const [embedId, setEmbedId] = useState(T_DEFAULT_EMBED_ID);
+  const [serverOffset, setServerOffset] = useState(0);
 
   const retrieveEmbedId = () => {
     return axios
@@ -97,9 +100,24 @@ export default function useApplicationData(init) {
 
       //Set a timer to check periodically
       const clear = setInterval(retrieveEmbedId, QUERY_EMBED_ID_INTERVAL_MS);
-      return () => { clearInterval(clear)};  
+      return () => { clearInterval(clear) };  
     }
   }, []);
+
+  useEffect(() => {
+    if (init) {
+      console.log('Querying for reference time...');
+      axios.get(T_API_SERVER_URL + "time")
+        .then(data => {
+          const deviceTime = new Date();
+          const serverTimestamp = data.data.serverTimestamp;
+          console.log('Device time: ', deviceTime.toString());
+          console.log('Server time: ', new Date(serverTimestamp).toString());
+          const offset = serverTimestamp - deviceTime;
+          console.log('Local offset (ms):', offset);
+        })
+    }
+  }, [])
 
   const getStatus = () => {
 
@@ -159,6 +177,13 @@ export default function useApplicationData(init) {
     T_AFTER,
     T_CLOSED,
 
+    T_DATE_SWITCH_TO_PREROLL,
+    T_DATE_SWITCH_TO_DURING,
+    T_DATE_SWITCH_TO_AFTER,
+    T_DATE_SWITCH_TO_CLOSED,
+
+    DATE_FORMAT: { month: 'long', day: 'numeric' },
+
     T_DEFAULT_EMBED_ID,
 
     T_API_SERVER_URL,
@@ -166,6 +191,9 @@ export default function useApplicationData(init) {
 
     CHECK_FOR_STATUS_INTERVAL_MS,    
     QUERY_EMBED_ID_INTERVAL_MS,
+
+    serverOffset,
+    T_MAX_OFFSET_MINUTES,
   }
   
 }

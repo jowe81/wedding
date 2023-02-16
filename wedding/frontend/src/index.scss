@@ -4,7 +4,7 @@
 body {
 
   background-image: 
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),    
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 1)),    
     url("img/background2.jpg");
   height: 100vh;
   background-position: center;
@@ -27,11 +27,18 @@ body {
 .flex {
   display: flex;  
 
+  h6 {
+    color:white;
+  }
+
   div {
     text-align: justify;
-    margin: 15px;
+    margin: 10px 15px 5px 15px;
     flex: 1 1 0px;
+
+    color:rgb(215, 215, 215)
   }
+
 
 }
 
@@ -77,6 +84,8 @@ body {
   max-height: 150px;
   padding: 0px 10px 0px 10px;
   float:right;
+  box-shadow: 0px 0px 25px rgba(255,250,255,0.5);
+  background-color: rgba(155,155,155,0.3);
 }
 
 @media only screen and (max-width: 600px) {
@@ -86,7 +95,23 @@ body {
 
   .flex {
     flex-direction: column;
+
+    div {
+      text-align: justify;
+      margin: 0px 15px 0px 15px;
+      flex: 1 1 0px;
+
+      p {
+        margin-bottom: 8px;
+      }
+    }
+  
+    div:first-of-type {
+      margin-top: 8px;
+    }
+  
   }
+  
 
   .home-message {
     max-width: none !important;
@@ -321,6 +346,20 @@ code {
     monospace;
 }
 
+.warning-header {
+  background-color: rgba(131, 0, 0, 0.643);
+  padding: 15px;
+  margin-top: 10px;
+
+  a, a:link, a:visited {
+    color:yellow;
+  }
+
+  a:hover {
+    background-color: rgb(162, 0, 0);
+  }
+}
+
 .post {
   margin: 5px auto;
   margin-top:20px;
@@ -342,11 +381,11 @@ code {
   }
 
   .created_at {
-    color: gray;
+    color: rgb(169, 169, 169);    
   }
 
   .location {
-    color: gray;    
+    color: rgb(169, 169, 169);    
     font-style: italic;
   }
 
