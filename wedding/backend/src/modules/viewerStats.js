@@ -54,9 +54,9 @@ const getUnique = async (field, date) => {
     if (date) {
       const { start, end } = getDateBoundaries(date);
       console.log(`"${date}"`);
-      const startTs = new Date(start).getTime();
-      const endTs = new Date(end).getTime();
-      
+      const startTs = new Date(start);
+      const endTs = new Date(end);
+
       query = query
         .where('created_at', '>', startTs)
         .andWhere('created_at', '<', endTs);

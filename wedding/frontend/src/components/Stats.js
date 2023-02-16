@@ -36,7 +36,7 @@ const getNDaysAgo = (date, n) => {
 const getSectionContent = data => {
   return (
     <section className="data">
-      <div>Visits (total, IDs, IPs): {data.allVisits}, {data.uniqueIds}, {data.uniqueIds}</div>      
+      <div>Visits (total, IDs, IPs): {data.allVisits}, {data.uniqueIds}, {data.uniqueIps}</div>      
       <div>Contributors: {data.contributors}</div>
       <div>Files (all, images, videos): {data.allFiles}, {data.images}, {data.videos}</div>
     </section>
@@ -94,7 +94,7 @@ const Home = (appData) => {
   return (
     <div> 
       
-      <h1 className="top-header">Statistics</h1>
+      <h1 className="top-header">Statistics (UTC)</h1>
       <Navigation {...appData}/>
 
       <div className="stats-container">
