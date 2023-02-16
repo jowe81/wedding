@@ -19,7 +19,7 @@ const Navigation = (appData) => {
         <Link to="/">Ceremony</Link>&nbsp;|&nbsp;
         <Link to="/guestbook">Guestbook</Link>
         { guestbookOpen && <span>&nbsp;|&nbsp;<Link to="/sign">Sign the Guestbook</Link></span> }
-        { false && <span>&nbsp;|&nbsp;<Link to="/trivia">About</Link></span> }
+        { status === appData.T_BEFORE && <span>&nbsp;|&nbsp;<Link to="/trivia">About</Link></span> }
       </div>
   }
   return <div className="navigation-container">{content}</div>;
