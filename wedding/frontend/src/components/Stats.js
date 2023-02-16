@@ -22,21 +22,23 @@ const getDateBoundaries = (date) => {
 }
 
 const getYesterday = (date) => {
-  const t = date ? new Date(date) : new Date();
-  const d = new Date(t.getTime() - DAY);
-  const { start } = getDateBoundaries(d);
-  const yesterday12am = new Date(start);
-  console.log('Yesterday: ' + yesterday12am);
-  return yesterday12am;
+  return getNDaysAgo(date, 1);
 }
 
+const getNDaysAgo = (date, n) => {
+  const t = date ? new Date(date) : new Date();
+  const d = new Date(t.getTime() - (n * DAY));
+  const { start } = getDateBoundaries(d);
+  const startDate = new Date(start);
+  return startDate;
+}
 
 const getSectionContent = data => {
   return (
     <section className="data">
-      <div>Visits (total, IDs, IPs): {data.allVisits.length}, {data.uniqueIds.length}, {data.uniqueIds.length}</div>      
-      <div>Contributors: {data.contributors.length}</div>
-      <div>Files (all, images, videos): {data.allFiles.length}, {data.images.length}, {data.videos.length}</div>
+      <div>Visits (total, IDs, IPs): {data.allVisits}, {data.uniqueIds}, {data.uniqueIds}</div>      
+      <div>Contributors: {data.contributors}</div>
+      <div>Files (all, images, videos): {data.allFiles}, {data.images}, {data.videos}</div>
     </section>
   );
 }
@@ -45,18 +47,23 @@ const Home = (appData) => {
   const {status, embedId} = appData.getData();
 
   const [stats, setStats] = useState({});
+  
+  const statsRoot = 'viewer-stats/all?countsOnly=true&';
 
   useEffect(async () => {
     const dToday = await axios
-      .get(appData.T_API_SERVER_URL + 'viewer-stats/all?date=today')
+      .get(appData.T_API_SERVER_URL + statsRoot + 'date=today')
     const dYesterday = await axios
-      .get(appData.T_API_SERVER_URL + 'viewer-stats/all?date=' + getYesterday().getTime())
+      .get(appData.T_API_SERVER_URL + statsRoot + 'date=' + getYesterday().getTime())
+    const dTwoDaysAgo = await axios
+      .get(appData.T_API_SERVER_URL + statsRoot + 'date=' + getNDaysAgo(null, 2).getTime())
     const dAll = await axios
-      .get(appData.T_API_SERVER_URL + 'viewer-stats/all')
+      .get(appData.T_API_SERVER_URL + statsRoot);
 
     const data = {
       today: dToday.data,
       yesterday: dYesterday.data,
+      twoDaysAgo: dTwoDaysAgo.data,
       allTime: dAll.data,
     };
 
@@ -76,6 +83,8 @@ const Home = (appData) => {
         { getSectionContent(stats.today) }
         <div className="section-header">Yesterday:</div>
         { getSectionContent(stats.yesterday) }
+        <div className="section-header">2 days ago:</div>
+        { getSectionContent(stats.twoDaysAgo) }
         <div className="section-header">All Time:</div>
         { getSectionContent(stats.allTime) }
       </div>
@@ -88,7 +97,7 @@ const Home = (appData) => {
       <h1 className="top-header">Statistics</h1>
       <Navigation {...appData}/>
 
-      <div class="stats-container">
+      <div className="stats-container">
         { content }
 
       </div>      

@@ -177,15 +177,21 @@ router.get('/viewer-stats/by/:selector/:data', (req, res) => {
 
 router.get('/viewer-stats/all', async (req, res) => {
   try {
-    let date;
+    const dateParam = req.query.date;
+    const dateParamInt = parseInt(dateParam);
+    let date = null;
 
-    if (req.query.date === 'today'){
+    if (dateParam === 'today'){
       date = new Date();
-    } else if (req.query.date > 0) {
+      console.log('Getting todays stats');
+    } else if (dateParamInt > 0) {
       //Timestamp
-      date = new Date(req.query.date);
-    }
-    
+      console.log('Getting stats for (timestamp)', dateParamInt);
+      date = new Date(dateParamInt);
+    } else {
+      console.log('Getting all time stats');
+    }    
+
     const data = {
       uniqueIds: await viewerStats.getUnique('viewerId', date),
       uniqueIps: await viewerStats.getUnique('clientIp', date),
@@ -195,7 +201,19 @@ router.get('/viewer-stats/all', async (req, res) => {
       videos: await files.getAll(date, { column: 'type', value: 'video' }),      
       allFiles: await files.getAll(date, {}),
     }
-    res.json(data);
+
+    if (req.query.countsOnly) {
+      const counts = {};
+
+      const keys = Object.keys(data);
+      keys.forEach((key, value) => {
+        counts[key] = data[key].length;
+      });      
+
+      res.json(counts);
+    } else {
+      res.json(data);
+    }
   
   } catch (err) {
     res.status(500).json(err);
