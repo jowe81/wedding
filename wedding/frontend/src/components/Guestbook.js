@@ -20,12 +20,16 @@ const Guestbook = (appData) => {
     window.scrollTo({top: 0});
   }, []);
 
+
+  const from = new Date(appData.T_DATE_SWITCH_TO_PREROLL).toLocaleDateString('en-US', appData.DATE_FORMAT);
+  const until = new Date(appData.T_DATE_SWITCH_TO_CLOSED).toLocaleDateString('en-US', appData.DATE_FORMAT);
+
   const getPosts = () => {
     return posts.map(post => <Post key = {post.id} post = { post } appData = {appData}/>);
   }
   
   let empty_guestbook = <span>Nothing to display yet.<br></br>Be the first one to sign!</span>;
-  let not_yet_open = 'The guestbook has not opened yet. You will be able to sign it between February 18th and February 25th.';
+  let not_yet_open = `The guestbook has not opened yet. You will be able to sign it between ${ from } and ${ until }.`;
   let no_longer_open = 'The guestbook no longer accepts new entries.';
   let please_sign = "Please sign the guestbook if you haven't yet!"
   let something_wrong = "The guestbook should be open. If you see this message, unfortunately something went wrong. :(";

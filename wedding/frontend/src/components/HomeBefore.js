@@ -4,7 +4,7 @@ import February18 from "./February18";
 const HomeBefore = (appData) => {
 
   const from = new Date(appData.T_DATE_SWITCH_TO_PREROLL).toLocaleDateString('en-US', appData.DATE_FORMAT);
-  const until = new Date(appData.T_DATE_SWITCH_TO_CLOSED).toLocaleDateString('en-US', appData.DATE_FORMAT)
+  const until = new Date(appData.T_DATE_SWITCH_TO_CLOSED).toLocaleDateString('en-US', appData.DATE_FORMAT);
 
   return (
     <div className="home-message padded-text-div">
@@ -21,7 +21,7 @@ const HomeBefore = (appData) => {
             around 1:40pm and will feature pre-service content.
           </p>
           <p>
-            If you are unsure of the start time in your timezone, check <a href="https://www.timeanddate.com/worldclock/converter.html?iso=20230218T220000&p1=256" target="_blank">click here</a> to find out.
+            If you are unsure of the start time in your timezone, you can <a href="https://www.timeanddate.com/worldclock/converter.html?iso=20230218T220000&p1=256" target="_blank">look it up here</a>.
           </p>
         </div>
         <div>          

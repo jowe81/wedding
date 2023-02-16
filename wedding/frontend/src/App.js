@@ -11,7 +11,7 @@ import Sign from "./components/Sign";
 import UploadImages from "./components/UploadPictures";
 import UpdateEmbedId from "./components/UpdateEmbedId";
 import Stats from "./components/Stats";
-
+import Trivia from "./components/Trivia";
 import HeaderImage from "./img/jlb-jmw.png";
 
 import '@fontsource/roboto/300.css';
@@ -57,6 +57,7 @@ function App() {
         <Route path="sign" element={ <Sign {...appData}/> } />
         {picsRoutes.map(path => <Route key={path} path={path} element={ <UploadImages {...appData}/> } />)}
         
+        <Route path="trivia" element={<Trivia {...appData} />} />
         <Route path="stats" element={ <Stats {...appData}/> } />
         <Route path=".update-embed-id" element={ <UpdateEmbedId {...appData}/> } />
 
