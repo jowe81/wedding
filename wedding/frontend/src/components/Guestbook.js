@@ -30,7 +30,7 @@ const Guestbook = (appData) => {
   
   let empty_guestbook = <span>Nothing to display yet.<br></br>Be the first one to sign!</span>;
   let not_yet_open = `The guestbook has not opened yet. You will be able to sign it between ${ from } and ${ until }.`;
-  let no_longer_open = 'The guestbook no longer accepts new entries.';
+  let no_longer_open = <span>The guestbook no longer accepts new entries. You can email us at <a href="mailto:jessandjohannes@gmail.com">jessandjohannes@gmail.com</a>.</span>;
   let please_sign = "Please sign the guestbook if you haven't yet!"
   let something_wrong = "The guestbook should be open. If you see this message, unfortunately something went wrong. :(";
 
