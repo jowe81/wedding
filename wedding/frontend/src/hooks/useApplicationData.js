@@ -115,6 +115,7 @@ export default function useApplicationData(init) {
           console.log('Server time: ', new Date(serverTimestamp).toString());
           const offset = serverTimestamp - deviceTime;
           console.log('Local offset (ms):', offset);
+          setServerOffset(offset);
         })
     }
   }, [])
