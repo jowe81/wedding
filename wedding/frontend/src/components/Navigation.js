@@ -16,10 +16,9 @@ const Navigation = (appData) => {
   } else {
     content =
       <div>
-        <Link to="/">Ceremony</Link>&nbsp;|&nbsp;
-        <Link to="/guestbook">Guestbook</Link>
+        <Link to="/">Ceremony</Link>
         { guestbookOpen && <span>&nbsp;|&nbsp;<Link to="/sign">Sign the Guestbook</Link></span> }
-        { status === appData.T_BEFORE && <span>&nbsp;|&nbsp;<Link to="/trivia">About</Link></span> }
+        <span>&nbsp;|&nbsp;<Link to="/trivia">About</Link></span>
       </div>
   }
   return <div className="navigation-container">{content}</div>;
